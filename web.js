@@ -19,7 +19,7 @@ const createDisplay = require(__dirname + "/js/createDisplay.js");
 
 const app = express();
 
-app.use(express.static("public"));
+app.use(express.static("/home/hosting_users/jueunyeo/apps/jueunyeo_onmyway/public"));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({
   extended: true
