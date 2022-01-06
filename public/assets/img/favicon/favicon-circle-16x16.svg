@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="15.974" height="15.974" viewBox="0 0 1024 1024">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #2c9199;
+      }
+    </style>
+  </defs>
+  <image id="레이어_2" data-name="레이어 2" width="1024" height="1024" xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAB9UlEQVQ4jZXTv2sTYRgH8O/73g+jScjFeB5416Qg2KokUAcVgkkGdVQQBH82k7T6TzTdrNTFQQ2tSKq09QfdbR1qIEPWgptD0hzRBgcxaY1373snZ7SkDrb3rA+fZ3i+fIlx4jL6RxTcMzVTzic0O/1u8kt8yGDg3+k64aRCj/0sPXl2sHrv8SEYA9ZvJf6Dn9ZMeUyPMVSmPkMftMAbsrdSaIyl0KF3338MFKUDzvi26cOrNVPOerj6sAn9qAVek+F6uxgDAi7yBQ1LleBYwrCG6y0ph03aOyAK7syueFLD3EoY2oCNekPOXjvXmTk90r1DBpOXkjVTXtsVL/fwRkPCrQttvChsAGGeEr7Zyft6jI3sFY9ebGPOw13i/SdAdc3O+MGliR5mX0VQ0c0Q89XZLX2ou5+b/rAguSAK/0F13YZfLAYckLiFxeUwKG/TJnxixG0sLCm4Pq02KTgpC37xawU3plQEFV4m7qdUEm1h7XZBw8uVPeIHKoJRDjXipISIcrz1aEEx5suhU9oR5gfPMo5ZgtBVIOggcdherZtydjTTQelPzv/BHxhHzvsdNeIWjBhDsyXlrqQ3iztyllxAZ1h8E+nHxb94R5nsLYrzJ7vjCDnPnea+PJXcNI3y+PzbCG5Oq+vBKK+oEafEOKrb9QXwC8XFXRsTLajoAAAAAElFTkSuQmCC"/>
+  <circle id="타원_1" data-name="타원 1" class="cls-1" cx="512" cy="512" r="412"/>
+  <image id="레이어_1" data-name="레이어 1" x="256" y="256" width="512" height="512" xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAWUlEQVQYlWNAA2ehGCs4yMDA8B+KQWwUgCyJoeg2FkkYvsXEwMDwEJedDAwMj0CEIJKOCVAM44PkGAyRBGAAxjdkYWBgeAa1RoiBgUEMquIzAwPDOwYGhmcAQTciYyAWU2YAAAAASUVORK5CYII="/>
+</svg>

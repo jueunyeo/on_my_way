@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="256" viewBox="0 0 1024 512">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #6c757d;
+      }
+
+      .cls-2 {
+        fill: #a7aeb4;
+      }
+
+      .cls-10, .cls-11, .cls-2, .cls-3, .cls-9 {
+        fill-rule: evenodd;
+      }
+
+      .cls-3, .cls-4 {
+        fill: #3d4141;
+      }
+
+      .cls-5 {
+        fill: #fcb735;
+      }
+
+      .cls-6 {
+        fill: #2c9199;
+      }
+
+      .cls-7 {
+        fill: #eb4647;
+      }
+
+      .cls-8 {
+        font-size: 200px;
+        fill: #1c2a4f;
+        font-family: "IBM Plex Sans KR";
+        font-weight: 700;
+      }
+
+      .cls-9 {
+        fill: #19686e;
+      }
+
+      .cls-10 {
+        fill: #b93e36;
+      }
+
+      .cls-11 {
+        fill: #b98117;
+      }
+    </style>
+  </defs>
+  <rect id="사각형_1" data-name="사각형 1" class="cls-1" y="66" width="1024" height="380" rx="80" ry="80"/>
+  <path id="색상_칠_2" data-name="색상 칠 2" class="cls-2" d="M0,143A79.84,79.84,0,0,1,73,66H372a1056.694,1056.694,0,0,0-162,9c-69.265,9.371-126.306,25.679-169,46Q19.937,131.025,0,143Z"/>
+  <path id="색상_칠_3" data-name="색상 칠 3" class="cls-3" d="M627,446H945a82.412,82.412,0,0,0,80-74V249a715.636,715.636,0,0,1-113,90C825.968,394.3,729.335,430.187,627,446Z"/>
+  <circle id="타원_1_복사_3" data-name="타원 1 복사 3" class="cls-4" cx="844" cy="267" r="160"/>
+  <circle id="타원_1_복사_4" data-name="타원 1 복사 4" class="cls-4" cx="180" cy="267" r="160"/>
+  <circle id="타원_1_복사_5" data-name="타원 1 복사 5" class="cls-4" cx="512" cy="267" r="160"/>
+  <circle id="타원_1" data-name="타원 1" class="cls-5" cx="512" cy="305" r="160"/>
+  <circle id="타원_1_복사" data-name="타원 1 복사" class="cls-6" cx="180" cy="305" r="160"/>
+  <circle id="타원_1_복사_2" data-name="타원 1 복사 2" class="cls-7" cx="844" cy="305" r="160"/>
+  <text id="가" class="cls-8" x="83.625" y="368.375">가</text>
+  <text id="중" class="cls-8" x="754.625" y="362.375">중</text>
+  <text id="는" class="cls-8" x="422.625" y="361.375">는</text>
+  <text id="_" data-name="!" class="cls-8" x="960.625" y="195.375">!</text>
+  <path id="색상_칠_1" data-name="색상 칠 1" class="cls-9" d="M337,337A160.889,160.889,0,0,1,172,465a303.4,303.4,0,0,0,107-60A301.7,301.7,0,0,0,337,337Z"/>
+  <path id="색상_칠_1-2" data-name="색상 칠 1" class="cls-10" d="M1001,337A160.889,160.889,0,0,1,836,465,301.582,301.582,0,0,0,1001,337Z"/>
+  <path id="색상_칠_1-3" data-name="색상 칠 1" class="cls-11" d="M669,337A160.889,160.889,0,0,1,504,465,301.582,301.582,0,0,0,669,337Z"/>
+</svg>

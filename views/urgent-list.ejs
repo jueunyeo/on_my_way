@@ -1,0 +1,70 @@
+<%- include("partials/header") -%>
+
+<!-- Nav Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark omw-bg-color-darkblue">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">
+      <img src="/assets/img/favicon/favicon-circle-512x512.png" alt="가는중!" width="48" height="48">
+      <img src="<%= bodyUserProfile %>" class="rounded-circle" alt="profile" width="48" height="48">
+      <b class="omw-font-bold"><%= bodyUserNickname%></b>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="/urgent-list/<%= bodyUsername %>"><b class="omw-font-bold">비상연락처</b></a>
+        </li>
+        <li class="nav-item">
+          <a id="create-kakao-link-btn" class="nav-link" href="javascript:;"><b class="omw-font-bold">친구초대하기</b></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/logout"><b class="omw-font-bold">로그아웃</b></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- urgent List -->
+<% for (let i = 0; i < urgentItems.length; i++) { %>
+  <div class="col-8 col-lg-3 col-md-6 col-sm-6 mt-4 mx-auto omw-bg-color-faintyellow rounded">
+    <div class="row align-items-center p-3">
+      <div class="col-9">
+        <img src="<%= urgentItems[i].urgentProfile %>" alt="friend-profile" width="48" height="48" class="me-2 rounded-circle">
+        <b class="omw-font-light"><%= urgentItems[i].urgentNickname %></b>
+      </div>
+      <div class="col-3">
+        <form class="urgentDelete text-end" action="/urgent-list-delete/<%= bodyUsername %>/<%= urgentItems[i].urgentUsername %>" method="post">
+          <button type="submit" class="btn omw-bg-color-red omw-font-bold mx-auto rounded"><i class="far fa-trash-alt"></i></button>
+        </form>
+      </div>
+    </div>
+  </div>
+<% } %>
+
+<!-- Create -->
+<div class="col-8 col-lg-3 col-md-6 col-sm-6 mt-4 mb-4 mx-auto text-center omw-font-light-color">
+  가는중!사용자만<br>추가가능하며<br>5명까지&nbsp;추가가능합니다.<br><br>추가시,&nbsp;추가된&nbsp;사용자에게<br>&nbsp;메시지가&nbsp;전송됩니다.
+</div>
+<div class="col-8 col-lg-3 col-md-6 col-sm-6 mt-4 mb-3 mx-auto <%= createDisplay %>">
+  <div class="d-grid">
+    <a class="btn omw-bg-color-green omw-font-light-white" href="/friend-list-urgent/<%= bodyUsername %>" role="button">추가하기</a>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  let ud = document.getElementsByClassName("urgentDelete");
+  for (let i = 0; i < ud.length; i++) {
+    ud[i].addEventListener("submit", function(event) {
+      if (confirm("삭제하시겠습니까?") === false) {
+        event.preventDefault();
+      }
+    });
+  }
+
+</script>
+
+<%- include("partials/footer") -%>

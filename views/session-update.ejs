@@ -1,0 +1,230 @@
+<%- include("partials/header") -%>
+
+<!-- Nav Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark omw-bg-color-darkblue">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">
+      <img src="/assets/img/favicon/favicon-circle-512x512.png" alt="가는중!" width="48" height="48">
+      <img src="<%= bodyUserProfile %>" class="rounded-circle" alt="profile" width="48" height="48">
+      <b class="omw-font-bold"><%= bodyUserNickname%></b>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="/urgent-list/<%= bodyUsername %>"><b class="omw-font-bold">비상연락처</b></a>
+        </li>
+        <li class="nav-item">
+          <a id="create-kakao-link-btn" class="nav-link" href="javascript:;"><b class="omw-font-bold">친구초대하기</b></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/logout"><b class="omw-font-bold">로그아웃</b></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Form -->
+<form id="formTarget" class="container mt-4 mb-3" action="/session-update/<%= bodyUsername %>/<%= session.id %>" method="post">
+
+  <div class="col-8 col-lg-3 col-md-6 col-sm-6 mt-4 mb-4 mx-auto text-center omw-font-light-color fs-5">
+    필수&nbsp;|&nbsp;<b class="omw-font-bold-color">도착예정시간</b>
+  </div>
+
+  <div class="row justify-content-center mt-2 mb-4 omw-bg-color-darkblue rounded">
+    <div class="col-3 col-lg-2 col-md-2 col-sm-2 mt-4  mb-4 omw-font-light">
+      <select class="form-select" name="hourSelect" id="hourSelect">
+        <option value="0" <%= session.hourSelected[0] %>>0</option>
+        <option value="1" <%= session.hourSelected[1] %>>1</option>
+        <option value="2" <%= session.hourSelected[2] %>>2</option>
+        <option value="3" <%= session.hourSelected[3] %>>3</option>
+        <option value="4" <%= session.hourSelected[4] %>>4</option>
+        <option value="5" <%= session.hourSelected[5] %>>5</option>
+      </select>
+
+    </div>
+    <div class="col-2 col-lg-1 col-md-1 col-sm-2 mt-4 mb-4 text-center align-self-center omw-font-bold-white">
+      시간
+    </div>
+    <div class="col-3 col-lg-2 col-md-2 col-sm-3 mt-4 mb-4 omw-font-light">
+      <select class="form-select" name="minuteSelect" id="minuteSelect">
+        <option value="0" <%= session.minuteSelected[0] %>>00</option>
+        <option value="5" <%= session.minuteSelected[1] %>>05</option>
+        <option value="10" <%= session.minuteSelected[2] %>>10</option>
+        <option value="15" <%= session.minuteSelected[3] %>>15</option>
+        <option value="20" <%= session.minuteSelected[4] %>>20</option>
+        <option value="25" <%= session.minuteSelected[5] %>>25</option>
+        <option value="30" <%= session.minuteSelected[6] %>>30</option>
+        <option value="35" <%= session.minuteSelected[7] %>>35</option>
+        <option value="40" <%= session.minuteSelected[8] %>>40</option>
+        <option value="45" <%= session.minuteSelected[9] %>>45</option>
+        <option value="50" <%= session.minuteSelected[10] %>>50</option>
+        <option value="55" <%= session.minuteSelected[11] %>>55</option>
+      </select>
+    </div>
+    <div class="col-2 col-lg-1 col-md-1 col-sm-2 mt-4 mb-4 text-center align-self-center omw-font-bold-white">
+      분&nbsp;뒤
+    </div>
+  </div>
+
+  <div class="col-8 col-lg-3 col-md-6 col-sm-6 mb-4 mx-auto text-center omw-font-light-color">
+    지도앱&nbsp;바로가기
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col mb-4 mx-auto text-end">
+      <a class="btn naver-bg-color omw-font-light-white" href="https://map.naver.com/v5/" role="button" target="blank"><i class="fas fa-map-marker-alt"></i>&nbsp;네이버&nbsp;지도</a>
+    </div>
+    <div class="col mb-4 mx-auto text-start">
+      <a class="btn kakao-bg-color omw-font-light" href="https://map.kakao.com/" role="button" target="blank">&nbsp;<i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;카카오맵&nbsp;</a>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="col-8 col-lg-3 col-md-6 col-sm-6 mb-4 mx-auto text-center omw-font-light-color fs-5">
+    선택&nbsp;|&nbsp;<b class="omw-font-bold-color">세부내용</b>
+  </div>
+
+  <div class="col-8 col-lg-3 col-md-6 col-sm-6 mb-4 mx-auto text-center omw-font-light-color fs-5">
+    <div class="d-grid">
+      <button class="btn btn-secondary omw-font-light" type="button" data-bs-toggle="collapse" data-bs-target="#departCollapse" aria-expanded="false" aria-controls="departCollapse">
+        출발지
+      </button>
+    </div>
+  </div>
+
+  <div class="collapse container" id="departCollapse">
+    <div class="col-8 col-lg-3 col-md-6 col-sm-6 mb-4 mx-auto text-center omw-bg-color-faintyellow">
+      <div class="btn-group-vertical mb-3 mt-3" role="group">
+        <input value="departNone" type="radio" class="btn-check" name="departBtnRadio" id="depart_none" autocomplete="off" <%= session.departChecked[0] %>>
+        <label class="btn btn-outline-secondary omw-font-light" for="depart_none">선택안함</label>
+
+        <input value="departMyHome" type="radio" class="btn-check" name="departBtnRadio" id="depart_myHome" autocomplete="off" <%= session.departChecked[1] %>>
+        <label class="btn btn-outline-secondary omw-font-light" for="depart_myHome">우리집</label>
+
+        <input value="departDorm" type="radio" class="btn-check" name="departBtnRadio" id="depart_dorm" autocomplete="off" <%= session.departChecked[2] %>>
+        <label class="btn btn-outline-secondary omw-font-light" for="depart_dorm">기숙사</label>
+
+        <input value="departFriend" type="radio" class="btn-check" name="departBtnRadio" id="depart_friend" autocomplete="off" <%= session.departChecked[3] %>>
+        <label class="btn btn-outline-secondary omw-font-light" for="depart_friend">친구집</label>
+
+        <input value="departWork" type="radio" class="btn-check" name="departBtnRadio" id="depart_work" autocomplete="off" <%= session.departChecked[4] %>>
+        <label class="btn btn-outline-secondary omw-font-light" for="depart_work">회사</label>
+
+        <input value="departSchool" type="radio" class="btn-check" name="departBtnRadio" id="depart_school" autocomplete="off" <%= session.departChecked[5] %>>
+        <label class="btn btn-outline-secondary omw-font-light" for="depart_school">학교</label>
+
+        <input value="departAcademy" type="radio" class="btn-check" name="departBtnRadio" id="depart_academy" autocomplete="off" <%= session.departChecked[6] %>>
+        <label class="btn btn-outline-secondary omw-font-light" for="depart_academy">학원</label>
+
+        <input value="departGathering" type="radio" class="btn-check" name="departBtnRadio" id="depart_gathering" autocomplete="off" <%= session.departChecked[7] %>>
+        <label class="btn btn-outline-secondary omw-font-light" for="depart_gathering">모임장소</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-8 col-lg-3 col-md-6 col-sm-6 mb-4 mx-auto text-center omw-font-light-color fs-5">
+    <div class="d-grid">
+      <button class="btn btn-secondary omw-font-light" type="button" data-bs-toggle="collapse" data-bs-target="#transitCollapse" aria-expanded="false" aria-controls="tranistCollapse">
+        이동수단
+      </button>
+    </div>
+  </div>
+
+  <div class="collapse container" id="transitCollapse">
+    <div class="col-8 col-lg-3 col-md-6 col-sm-6 mb-4 mx-auto py-2 omw-bg-color-faintyellow">
+      <div class="form-check mt-3 mb-3 ms-3">
+        <input class="form-check-input" type="checkbox" value="taxi" name="transitCheck" id="taxi" <%= session.transitChecked[0] %>>
+        <label class="form-check-label omw-font-light" for="taxi">
+          택시
+        </label>
+      </div>
+      <div class="form-check mt-3 mb-3 ms-3">
+        <input class="form-check-input" type="checkbox" value="subway" name="transitCheck" id="subway" <%= session.transitChecked[1] %>>
+        <label class="form-check-label omw-font-light" for="subway">
+          지하철
+        </label>
+      </div>
+      <div class="form-check mb-3 ms-3">
+        <input class="form-check-input" type="checkbox" value="bus" name="transitCheck" id="bus" <%= session.transitChecked[2] %>>
+        <label class="form-check-label omw-font-light" for="bus">
+          버스
+        </label>
+      </div>
+      <div class="form-check mb-3 ms-3">
+        <input class="form-check-input" type="checkbox" value="foot" name="transitCheck" id="walk" <%= session.transitChecked[3] %>>
+        <label class="form-check-label omw-font-light" for="walk">
+          도보
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-8 col-lg-3 col-md-6 col-sm-6 mb-4 mx-auto text-center omw-font-light-color fs-5">
+    <div class="d-grid">
+      <button class="btn btn-secondary omw-font-light" type="button" data-bs-toggle="collapse" data-bs-target="#arriveCollapse" aria-expanded="false" aria-controls="arriveCollapse">
+        도착지
+      </button>
+    </div>
+  </div>
+
+  <div class="collapse container" id="arriveCollapse">
+    <div class="col-8 col-lg-3 col-md-6 col-sm-6 mb-4 mx-auto text-center omw-bg-color-faintyellow">
+      <div class="btn-group-vertical mb-3 mt-3" role="group">
+        <input value="arriveNone" type="radio" class="btn-check" name="arriveBtnRadio" id="arrive_none" autocomplete="off" <%= session.arriveChecked[0] %>>
+        <label class="btn btn-outline-secondary omw-font-light" for="arrive_none">선택안함</label>
+
+        <input value="arriveMyHome" type="radio" class="btn-check" name="arriveBtnRadio" id="arrive_myHome" autocomplete="off" <%= session.arriveChecked[1] %>>
+        <label class="btn btn-outline-secondary omw-font-light" for="arrive_myHome">우리집</label>
+
+        <input value="arriveDorm" type="radio" class="btn-check" name="arriveBtnRadio" id="arrive_dorm" autocomplete="off" <%= session.arriveChecked[2] %>>
+        <label class="btn btn-outline-secondary omw-font-light" for="arrive_dorm">기숙사</label>
+
+        <input value="arriveFriend" type="radio" class="btn-check" name="arriveBtnRadio" id="arrive_friend" autocomplete="off" <%= session.arriveChecked[3] %>>
+        <label class="btn btn-outline-secondary omw-font-light" for="arrive_friend">친구집</label>
+
+        <input value="arriveWork" type="radio" class="btn-check" name="arriveBtnRadio" id="arrive_work" autocomplete="off" <%= session.arriveChecked[4] %>>
+        <label class="btn btn-outline-secondary omw-font-light" for="arrive_work">회사</label>
+
+        <input value="arriveSchool" type="radio" class="btn-check" name="arriveBtnRadio" id="arrive_school" autocomplete="off" <%= session.arriveChecked[5] %>>
+        <label class="btn btn-outline-secondary omw-font-light" for="arrive_school">학교</label>
+
+        <input value="arriveAcademy" type="radio" class="btn-check" name="arriveBtnRadio" id="arrive_academy" autocomplete="off" <%= session.arriveChecked[6] %>>
+        <label class="btn btn-outline-secondary omw-font-light" for="arrive_academy">학원</label>
+
+        <input value="arriveGathering" type="radio" class="btn-check" name="arriveBtnRadio" id="arrive_gathering" autocomplete="off" <%= session.arriveChecked[7] %>>
+        <label class="btn btn-outline-secondary omw-font-light" for="arrive_gathering">모임장소</label>
+
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- Submit Button -->
+
+  <div class="col-8 col-lg-3 col-md-6 col-sm-6 mb-4 mx-auto text-center">
+    <div class="d-grid">
+      <button type="submit" class="btn btn-success omw-font-light">수정/시작하기</button>
+    </div>
+  </div>
+
+</form>
+
+<script type="text/javascript">
+
+  let ft = document.getElementById("formTarget");
+  ft.addEventListener("submit", function(event){
+    //console.log(document.getElementById.value);
+    if(document.getElementById("hourSelect").value === "0" && document.getElementById("minuteSelect").value === "0"){
+      alert("[필수]도착예정시간을 입력해주세요");
+      event.preventDefault();
+    }
+  });
+
+</script>
+<%- include("partials/footer") -%>

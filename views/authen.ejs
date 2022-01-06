@@ -1,0 +1,52 @@
+<%- include("partials/header") -%>
+
+<!-- Title -->
+<div class="container col-4 col-lg-2 col-md-3 col-sm-3 mt-3 mb-3 mx-auto">
+  <a href="/" role="button"><img src="/assets/img/logo/logo-1024x512.png" class="img-fluid" alt="가는중!"></a>
+</div>
+
+<!-- profile Image and username -->
+<div class="container text-center">
+  <img src="<%= bodyUserProfile %>" class="rounded-circle" alt="profile" width="110" height="110">
+</div>
+<div class="col-8 col-lg-3 col-md-6 col-sm-6 mt-4 mb-4 mx-auto text-center fs-2 omw-font-bold">
+  <%= bodyUserNickname %>
+</div>
+<!-- form -->
+<form class="container mt-4 mb-3" action="/authen/<%= bodyUsername %>" method="post">
+  <div class="row visually-hidden">
+    <div class="col-sm-10">
+      <input type="text" class="form-control" name="username" value="<%= bodyUsername %>">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4 col-lg-2 col-md-3 col-sm-3 mb-4 mx-auto text-center">
+      <input type="password" minlength="4" maxlength="4" pattern="[0-9]*" inputmode="numeric" class="form-control" name="password" placeholder="비밀번호" required>
+    </div>
+  </div>
+  <div class="col-8 col-lg-3 col-md-6 col-sm-6 mb-4 mx-auto text-center">
+    <div class="d-grid">
+      <button id="btSubmit" type="submit" class="btn btn-success omw-font-light">들어가기</button>
+    </div>
+  </div>
+
+</form>
+
+<div class="col-8 col-lg-3 col-md-6 col-sm-6 mb-4 mx-auto text-center omw-font-light-color">
+  비밀번호는<br>4자리&nbsp;숫자이며,<br>첫&nbsp;로그인시&nbsp;설정됩니다
+</div>
+
+<div class="d-grid gap-2 col-6 col-lg-2 col-md-3 col-sm-4 mt-4 mb-3 mx-auto">
+  <button class="btn btn-secondary omw-font-light" type="button" data-bs-toggle="collapse" data-bs-target="#passwordForget" aria-expanded="false" aria-controls="passwordForget">
+    비밀번호를&nbsp;잊었을때
+  </button>
+</div>
+<div class="collapse container omw-bg-color-faintyellow text-center" id="passwordForget">
+
+  <form action="/authen-delete/<%= bodyUsername %>" method="post">
+    <button class="btn btn-secondary omw-font-light mt-3 mb-3" type="submit">첫&nbsp;로그인&nbsp;다시하기</button>
+  </form>
+
+</div>
+
+<%- include("partials/footer") -%>

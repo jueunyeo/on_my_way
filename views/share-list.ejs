@@ -1,0 +1,80 @@
+<%- include("partials/header") -%>
+
+<!-- Nav Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark omw-bg-color-darkblue">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">
+      <img src="/assets/img/favicon/favicon-circle-512x512.png" alt="가는중!" width="48" height="48">
+      <img src="<%= bodyUserProfile %>" class="rounded-circle" alt="profile" width="48" height="48">
+      <b class="omw-font-bold"><%= bodyUserNickname%></b>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="/urgent-list/<%= bodyUsername %>"><b class="omw-font-bold">비상연락처</b></a>
+        </li>
+        <li class="nav-item">
+          <a id="create-kakao-link-btn" class="nav-link" href="javascript:;"><b class="omw-font-bold">친구초대하기</b></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/logout"><b class="omw-font-bold">로그아웃</b></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- session short info -->
+<div class="col-8 col-lg-3 col-md-6 col-sm-6 mt-4 mb-3 mx-auto omw-bg-color-darkblue">
+  <div class="pt-3 mx-auto text-center omw-font-bold-white fs-2">
+    <% if(sessionItem.hourRemainedOver > 0){ %>
+      <%= sessionItem.hourRemainedOver %>시간
+    <% } %>
+    <% if(sessionItem.minuteRemainedOver === 0){ %>
+      <% if(sessionItem.hourRemainedOver === 0){ %>
+        조금
+      <% } %>
+    <% } else{ %>
+      <%= sessionItem.minuteRemainedOver %>분
+    <% } %>
+    <% if(sessionItem.isRemain){ %>
+    뒤&nbsp;도착
+    <% }else{ %>
+    초과
+    <% } %>
+  </div>
+  <div class="pb-2">
+    <div class="progress mt-4 mb-4 mx-2 my-2">
+      <div class="progress-bar progress-bar-striped progress-bar-animated <%= sessionItem.progressColor %>" role="progressbar" style="width:<%= sessionItem.progressPercentage %>%"></div>
+    </div>
+  </div>
+</div>
+
+<!-- share list -->
+
+<% for (let i = 0; i < shareItems.length; i++) { %>
+  <div class="col-8 col-lg-3 col-md-6 col-sm-6 mt-4 mx-auto omw-bg-color-faintyellow rounded">
+    <div class="row align-items-center p-3">
+      <div class="col">
+        <img src="<%= shareItems[i].shareProfile %>" alt="friend-profile" width="48" height="48" class="me-2 rounded-circle">
+        <b class="omw-font-light"><%= shareItems[i].shareNickname %></b>
+      </div>
+    </div>
+  </div>
+<% } %>
+
+<!-- Create or Delete -->
+<div class="col-8 col-lg-3 col-md-6 col-sm-6 mt-4 mb-4 mx-auto text-center omw-font-light-color">
+  한&nbsp;세션은<br>가는중!사용자에게<br>5명까지&nbsp;공유가능합니다.<br><br>업데이트시,&nbsp;업데이트된&nbsp;사용자에게<br>&nbsp;메시지가&nbsp;전송됩니다.
+</div>
+<div class="col-8 col-lg-3 col-md-6 col-sm-6 mt-4 mb-3 mx-auto">
+  <div class="d-grid">
+    <a class="btn omw-bg-color-green omw-font-light-white" href="/friend-list-share/<%= bodyUsername %>/<%= bodySessionId %>" role="button">친구목록보기/업데이트</a>
+  </div>
+</div>
+
+
+<%- include("partials/footer") -%>

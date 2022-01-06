@@ -1,0 +1,142 @@
+<%- include("partials/header") -%>
+
+    <!-- Title -->
+    <div class="container col-4 col-lg-2 col-md-3 col-sm-3 mt-3 mb-3 mx-auto">
+      <a href="/" role="button"><img src="/assets/img/logo/logo-1024x512.png" class="img-fluid" alt="가는중!"></a>
+    </div>
+    <div class="container col-4 col-lg-2 col-md-3 col-sm-3 mt-3 mb-3 mx-auto text-center">
+      <img src="<%= bodyUserProfile %>" class="rounded-circle" alt="profile" width="60" height="60">
+    </div>
+    <div class="container col-6 col-lg-3 col-md-5 col-sm-5 mt-3 mb-3 mx-auto text-center omw-font-light fs-2">
+      <b class="omw-font-bold"><%= bodyUserNickname %></b>님의<br>이동상황
+    </div>
+    <div class="col text-center">
+      <button type="button" class="btn omw-bg-color-green omw-font-bold mt-3 fs-2 rounded-circle" onClick="window.location.reload();"><i class="fas fa-redo"></i></button>
+    </div>
+
+    <!-- content -->
+    <div class="container col-8 col-lg-3 col-md-6 col-sm-6 mt-3 mb-3 pb-3 mx-auto omw-bg-color-faintyellow">
+      <div class="pt-3 mx-auto text-center omw-font-bold-color fs-2">
+        <% if(session.hourRemainedOver > 0){ %>
+          <%= session.hourRemainedOver %>시간
+        <% } %>
+        <% if(session.minuteRemainedOver === 0){ %>
+          <% if(session.hourRemainedOver === 0){ %>
+            조금
+          <% } %>
+        <% } else{ %>
+          <%= session.minuteRemainedOver %>분
+        <% } %>
+        <% if(session.isRemain){ %>
+        뒤&nbsp;도착
+        <% }else{ %>
+        초과
+        <% } %>
+      </div>
+      <div class="progress mt-4 mb-4 mx-2 my-2">
+        <div class="progress-bar progress-bar-striped progress-bar-animated <%= session.progressColor %>" role="progressbar" style="width: <%= session.progressPercentage %>%" aria-valuenow="<%= session.progressPercentage %>" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+      <% switch(session.Depart){
+        case "departNone": %>
+        <% break;
+        case "departMyHome": %>
+        <div class="mt-4 mb-3 mx-auto text-center omw-font-bold-color fs-4 rounded" style="border: 1px solid">
+          <b class="omw-font-light">출발지</b><br>우리집
+        </div>
+        <% break;
+        case "departDorm": %>
+        <div class="mt-4 mb-3 mx-auto text-center omw-font-bold-color fs-4 rounded" style="border: 1px solid">
+          <b class="omw-font-light">출발지</b><br>기숙사
+        </div>
+        <% break;
+        case "departFriend": %>
+        <div class="mt-4 mb-3 mx-auto text-center omw-font-bold-color fs-4 rounded" style="border: 1px solid">
+          <b class="omw-font-light">출발지</b><br>친구집
+        </div>
+        <% break;
+        case "departWork": %>
+        <div class="mt-4 mb-3 mx-auto text-center omw-font-bold-color fs-4 rounded" style="border: 1px solid">
+          <b class="omw-font-light">출발지</b><br>회사
+        </div>
+        <% break;
+        case "departSchool": %>
+        <div class="mt-4 mb-3 mx-auto text-center omw-font-bold-color fs-4 rounded" style="border: 1px solid">
+          <b class="omw-font-light">출발지</b><br>학교
+        </div>
+        <% break;
+        case "departAcademy": %>
+        <div class="mt-4 mb-3 mx-auto text-center omw-font-bold-color fs-4 rounded" style="border: 1px solid">
+          <b class="omw-font-light">출발지</b><br>학원
+        </div>
+        <% break;
+        case "departGathering": %>
+        <div class="mt-4 mb-3 mx-auto text-center omw-font-bold-color fs-4 rounded" style="border: 1px solid">
+          <b class="omw-font-light">출발지</b><br>모임장소
+        </div>
+        <% break;
+      } %>
+
+      <% if(session.Transit.length > 0){ %>
+        <div class="mt-4 mb-3 mx-auto text-center omw-font-bold-color fs-4 rounded" style="border: 1px solid">
+          <b class="omw-font-light">이동수단</b>
+          <% for (let i = 0; i < session.Transit.length; i++){ %>
+            <% switch(session.Transit[i]){
+              case("taxi"): %>
+              <br>택시
+              <% break;
+              case("subway"):%>
+              <br>지하철
+              <% break;
+              case("bus"): %>
+              <br>버스
+              <% break;
+              case("foot"): %>
+              <br>도보
+              <% break;
+            } %>
+          <% } %>
+        </div>
+      <% } %>
+
+      <% switch(session.Arrive){
+        case "arriveNone": %>
+        <% break;
+        case "arriveMyHome": %>
+        <div class="mt-4 mb-3 mx-auto text-center omw-font-bold-color fs-4 rounded" style="border: 1px solid">
+          <b class="omw-font-light">도착지</b><br>우리집
+        </div>
+        <% break;
+        case "arriveDorm": %>
+        <div class="mt-4 mb-3 mx-auto text-center omw-font-bold-color fs-4 rounded" style="border: 1px solid">
+          <b class="omw-font-light">도착지</b><br>기숙사
+        </div>
+        <% break;
+        case "arriveFriend": %>
+        <div class="mt-4 mb-3 mx-auto text-center omw-font-bold-color fs-4 rounded" style="border: 1px solid">
+          <b class="omw-font-light">도착지</b><br>친구집
+        </div>
+        <% break;
+        case "arriveWork": %>
+        <div class="mt-4 mb-3 mx-auto text-center omw-font-bold-color fs-4 rounded" style="border: 1px solid">
+          <b class="omw-font-light">도착지</b><br>회사
+        </div>
+        <% break;
+        case "arriveSchool": %>
+        <div class="mt-4 mb-3 mx-auto text-center omw-font-bold-color fs-4 rounded" style="border: 1px solid">
+          <b class="omw-font-light">도착지</b><br>학교
+        </div>
+        <% break;
+        case "arriveAcademy": %>
+        <div class="mt-4 mb-3 mx-auto text-center omw-font-bold-color fs-4 rounded" style="border: 1px solid">
+          <b class="omw-font-light">도착지</b><br>학원
+        </div>
+        <% break;
+        case "arriveGathering": %>
+        <div class="mt-4 mb-3 mx-auto text-center omw-font-bold-color fs-4 rounded" style="border: 1px solid">
+          <b class="omw-font-light">도착지</b><br>모임장소
+        </div>
+        <% break;
+      } %>
+    </div>
+
+<%- include("partials/footer") -%>

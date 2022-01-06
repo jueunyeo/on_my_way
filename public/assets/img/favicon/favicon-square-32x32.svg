@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32.051" height="32.051" viewBox="0 0 1024 1024">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #1c2a4f;
+        fill-rule: evenodd;
+      }
+
+      .cls-2 {
+        fill: #2c9199;
+      }
+    </style>
+  </defs>
+  <image id="배경" width="1024" height="1024" xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAANklEQVRYhe3OQQ0AIBAEsQVPaMccCRdU3IOOgek4e900NjvnLwAAAAAAAAAAAAAAAACAzwFJCtzLAye3e+B4AAAAAElFTkSuQmCC"/>
+  <path id="사각형_1" data-name="사각형 1" class="cls-1" d="M459.619-259.041L601.041-117.619-459.619,943.041-601.041,801.619Z"/>
+  <path id="사각형_1-2" data-name="사각형 1" class="cls-1" d="M971.619-89.041L1113.04,52.381,52.381,1113.04-89.041,971.619Z"/>
+  <path id="사각형_1-3" data-name="사각형 1" class="cls-1" d="M1287.62,255.959l141.42,141.422L368.381,1458.04,226.959,1316.62Z"/>
+  <circle id="타원_1" data-name="타원 1" class="cls-2" cx="512" cy="512" r="412"/>
+  <image id="레이어_1" data-name="레이어 1" x="256" y="256" width="512" height="512" xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAsUlEQVQ4jZ2RsQoCMQyGP08RHFycHXT3HsQnvOlmH8HVJ/AdxN1FsIuiNCTgSVrb+yEQmnx/k5aMWuCi0eYaPUUgAG+NUGPyC1eZpOAik39w1qQUdk1q4YHJBHgAi+L/GSo0wHMkjLFboB+xQq+saJdouml4tcjQqMHGGa8D1hqdUxdmltnvrA9suSubYO5UV4ncJIwZ3J2GZSI3CWMrnIADsAemenb9ao65XfICjsIAHyaSZIQk2TqzAAAAAElFTkSuQmCC"/>
+</svg>

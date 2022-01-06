@@ -1,0 +1,123 @@
+<%- include("partials/header") -%>
+
+<!-- Nav Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark omw-bg-color-darkblue">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">
+      <img src="/assets/img/favicon/favicon-circle-512x512.png" alt="가는중!" width="48" height="48">
+      <img src="<%= bodyUserProfile %>" class="rounded-circle" alt="profile" width="48" height="48">
+      <b class="omw-font-bold"><%= bodyUserNickname%></b>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="/urgent-list/<%= bodyUsername %>"><b class="omw-font-bold">비상연락처</b></a>
+        </li>
+        <li class="nav-item">
+          <a id="create-kakao-link-btn" class="nav-link" href="javascript:;"><b class="omw-font-bold">친구초대하기</b></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/logout"><b class="omw-font-bold">로그아웃</b></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="col text-center">
+  <button type="button" class="btn omw-bg-color-green omw-font-bold mt-3 fs-2 rounded-circle" onClick="window.location.reload();"><i class="fas fa-redo"></i></button>
+</div>
+
+<!-- sessionItems.forEach(function(item){ -->
+<% for (let i = 0; i < sessionItems.length; i++) { %>
+<div id="session" class="col-8 col-lg-3 col-md-6 col-sm-6 mt-4 mb-3 mx-auto omw-bg-color-darkblue">
+  <div class="pt-3 mx-auto text-center omw-font-bold-white fs-2">[<%= i+1 %>]
+    <% if(sessionItems[i].hourRemainedOver > 0){ %>
+      <%= sessionItems[i].hourRemainedOver %>시간
+    <% } %>
+    <% if(sessionItems[i].minuteRemainedOver === 0){ %>
+      <% if(sessionItems[i].hourRemainedOver === 0){ %>
+        조금
+      <% } %>
+    <% } else{ %>
+      <%= sessionItems[i].minuteRemainedOver %>분
+    <% } %>
+    <% if(sessionItems[i].isRemain){ %>
+    뒤&nbsp;도착
+    <% }else{ %>
+    초과
+    <% } %>
+
+  </div>
+  <div class="progress mt-4 mb-4 mx-2 my-2">
+    <div class="progress-bar progress-bar-striped progress-bar-animated <%= sessionItems[i].progressColor %>" role="progressbar" style="width:<%= sessionItems[i].progressPercentage %>%"></div>
+  </div>
+  <div class="d-grid mb-3 mx-2 my-2">
+    <form class="formDone d-grid" action="/session-done/<%= bodyUsername %>/<%= sessionItems[i].id.toString()%>" method="post">
+      <button class="btn btn-success omw-font-light" type="submit">도착완료</button>
+    </form>
+  </div>
+  <div class="d-grid mb-3 mx-2 my-2">
+    <a class="btn btn-warning omw-font-light" href="/share-list/<%= bodyUsername %>/<%= sessionItems[i].id.toString() %>" role="button">공유목록&nbsp;업데이트/공유하기</a>
+  </div>
+  <div class="d-grid mb-3 mx-2 my-2">
+    <a class="btn btn-secondary omw-font-light" href="/session-shared/<%= bodyUsername %>/<%= sessionItems[i].id.toString() %>" role="button">공유&nbsp;페이지&nbsp;보기</a>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-4 col-lg-4 col-md-4 col-sm-4 mb-3 text-center">
+      <a class="btn btn-secondary omw-font-light" href="/session-update/<%= bodyUsername %>/<%= sessionItems[i].id.toString()%>" role="button">수정</a>
+    </div>
+    <div class="col-4 col-lg-4 col-md-4 col-sm-4 mb-3 text-center">
+      <form class="formDelete" action="/session-delete/<%= bodyUsername %>/<%= sessionItems[i].id.toString()%>" method="post">
+        <button class="btn btn-secondary omw-font-light" type="submit">삭제</button>
+      </form>
+    </div>
+  </div>
+</div>
+<% } %>
+
+
+<!-- ToCreate -->
+<div id="ToCreate" class="col-8 col-lg-3 col-md-6 col-sm-6 mt-4 mb-3 mx-auto <%= createDisplay %>">
+  <div class="d-grid">
+    <a class="btn omw-bg-color-green omw-font-bold fs-1" href="/session-create/<%= bodyUsername %>" role="button"><i class="fas fa-plus-circle"></i></a>
+  </div>
+</div>
+
+<!-- Collapse -->
+<div class="d-grid gap-2 col-6 col-lg-2 col-md-3 col-sm-4 mt-4 mb-3 mx-auto">
+  <button class="btn btn-secondary omw-font-light" type="button" data-bs-toggle="collapse" data-bs-target="#omwService" aria-expanded="false" aria-controls="omwService">
+    서비스&nbsp;설명
+  </button>
+</div>
+<div class="collapse container omw-bg-color-faintyellow" id="omwService">
+
+  <%- include("partials/omw-info") -%>
+
+</div>
+
+<script type="text/javascript">
+  let fd = document.getElementsByClassName("formDelete");
+  for (let i = 0; i < fd.length; i++) {
+    fd[i].addEventListener("submit", function(event) {
+      if (confirm("삭제하시겠습니까?") === false) {
+        event.preventDefault();
+      }
+    });
+  }
+
+  let fdo = document.getElementsByClassName("formDone");
+  for (let i = 0; i < fdo.length; i++) {
+    fdo[i].addEventListener("submit", function(event) {
+      if (confirm("도착완료하시겠습니까?") === false) {
+        event.preventDefault();
+      }
+    });
+  }
+
+</script>
+
+<%- include("partials/footer") -%>

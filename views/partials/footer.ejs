@@ -1,0 +1,46 @@
+</div>
+<footer class="omw-footer py-3 mt-3 omw-bg-color-darkblue">
+
+  <div class="container-fluid">
+    <div class="row justify-content-center mt-2 mb-2">
+      <div class="align-self-center text-center omw-font-light">
+        <a href="https://www.instagram.com/on_my_way_kor/" target="blank" class="omw-font-light"><i class="fab fa-instagram fs-1"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="mailto:omw.kor@gmail.com" class="omw-font-light"><i
+            class="far fa-envelope fs-1"></i></a>
+      </div>
+    </div>
+    <div class="row justify-content-center mt-2 mb-2">
+      <div class="align-self-center text-center omw-font-light">
+        <a href="#" class="omw-font-light text-decoration-none">개인정보처리방침</a>&nbsp;|&nbsp;<a href="/unlink" class="omw-font-light text-decoration-none">회원탈퇴</a>
+      </div>
+    </div>
+    <div class="row justify-content-center mt-2 mb-2">
+      <div class="align-self-center text-center omw-font-light-white">
+        ©&nbsp;2022.&nbsp;<a href="/OMWteam">OMW</a>&nbsp;all&nbsp;rights&nbsp;reserved.
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+<!-- Kakao JS -->
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script>
+  Kakao.init('a02dd66190091e181757e9d40c9cc13e');
+  Kakao.Link.createDefaultButton({
+    container: '#create-kakao-link-btn',
+    objectType: 'text',
+    text:
+      '안전한 생활습관, 가는중!에 초대합니다',
+    link: {
+      mobileWebUrl: 'https://still-inlet-56657.herokuapp.com',
+      webUrl: 'https://still-inlet-56657.herokuapp.com',
+    },
+  })
+</script>
+
+</body>
+
+</html>
