@@ -29,7 +29,7 @@ app.set('views', __dirname + '/views');
 
 //authenticating
 app.use(session({
-  secret: process.env.SESSION_SECRET,
+  secret: "omwsecretphisonphison",
   resave: false,
   saveUninitialized: false
 }));
@@ -123,6 +123,8 @@ passport.deserializeUser(function(id, done) {
 //const redirectUrl = "http://localhost:3000/oauth";
 //const redirectUrl = "https://still-inlet-56657.herokuapp.com/oauth";
 const redirectUrl = "http://onmyway.cafe24app.com/oauth";
+
+const restApiKey = "a62cbbe436fc36a4056dbeac2897b11d";
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -864,7 +866,7 @@ setInterval(finalMessageCatcher, 5000);
 
 app.get("/oauth", function(req, res) {
   const authorizeCode = req.query.code;
-  const tokenUrl = "https://kauth.kakao.com/oauth/token?Content-type=application/x-www-form-urlencoded&grant_type=authorization_code&client_id=" + process.env.REST_API_KEY + "&code=" + authorizeCode;
+  const tokenUrl = "https://kauth.kakao.com/oauth/token?Content-type=application/x-www-form-urlencoded&grant_type=authorization_code&client_id=" + restApiKey + "&code=" + authorizeCode;
 
   https.get(tokenUrl, function(response) {
     if(response.statusCode === 200){
@@ -1243,7 +1245,7 @@ app.get("/session-create/:username", function(req, res){
                 }
 
                 if(permissionNeeded === true){
-                  const permissionUrl = "https://kauth.kakao.com/oauth/authorize?client_id="+process.env.REST_API_KEY+"&redirect_uri=" + redirectUrl+ "&response_type=code&scope=friends,talk_message";
+                  const permissionUrl = "https://kauth.kakao.com/oauth/authorize?client_id="+restApiKey+"&redirect_uri=" + redirectUrl+ "&response_type=code&scope=friends,talk_message";
                   res.redirect(permissionUrl);
                 } else{
                   res.render("session-create", {
@@ -2125,7 +2127,7 @@ app.get("/", function(req, res) {
                 permissionNeeded = true;
               }
               if(permissionNeeded === true){
-                const permissionUrl = "https://kauth.kakao.com/oauth/authorize?client_id="+process.env.REST_API_KEY+"&redirect_uri=" + redirectUrl+ "&response_type=code&scope=friends,talk_message";
+                const permissionUrl = "https://kauth.kakao.com/oauth/authorize?client_id="+restApiKey+"&redirect_uri=" + redirectUrl+ "&response_type=code&scope=friends,talk_message";
                 res.redirect(permissionUrl);
               } else{
                 res.redirect("/session-list/" + req.user.username);
@@ -2145,7 +2147,7 @@ app.get("/", function(req, res) {
       }
     });
   } else{
-    const url = "https://kauth.kakao.com/oauth/authorize?client_id=" + process.env.REST_API_KEY + "&redirect_uri="+ redirectUrl + "&response_type=code";
+    const url = "https://kauth.kakao.com/oauth/authorize?client_id=" + restApiKey + "&redirect_uri="+ redirectUrl + "&response_type=code";
     res.render("home", {
       kakao_login_url: url
     });
