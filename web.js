@@ -120,10 +120,8 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
-//const redirectUrl = "http://localhost:3000/oauth";
-//const redirectUrl = "https://still-inlet-56657.herokuapp.com/oauth";
+const homeUrl = "http://onmyway.cafe24app.com";
 const redirectUrl = "http://onmyway.cafe24app.com/oauth";
-
 const restApiKey = "a62cbbe436fc36a4056dbeac2897b11d";
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -135,10 +133,10 @@ function sendMessageUrgentCreate (accessToken, userNickname, urgentUuid){
 
   const data = {
     "object_type": "text",
-    "text": userNickname + "님이 비상연락처로 등록하였습니다!",
+    "text": userNickname + "님의 비상연락처로 등록되셨습니다",
     "link": {
-      "web_url": "https://still-inlet-56657.herokuapp.com",
-      "mobile_web_url": "https://still-inlet-56657.herokuapp.com"
+      "web_url": homeUrl,
+      "mobile_web_url": homeUrl
     },
     "button_title": "가는중! 바로가기"
   };
@@ -163,7 +161,7 @@ function sendMessageUrgentCreate (accessToken, userNickname, urgentUuid){
   request.end();
 }
 
-function senMessageShareCreate (accessToken, username, userNickname, sessionId, shareList){
+function sendMessageShareCreate (accessToken, username, userNickname, sessionId, shareList){
   let uuid = [];
   for (let i = 0; i < shareList.length; i++) {
     uuid.push(String(shareList[i].shareUuid));
@@ -174,8 +172,8 @@ function senMessageShareCreate (accessToken, username, userNickname, sessionId, 
     "object_type": "text",
     "text": userNickname + "님이 이동상황을 공유합니다",
     "link": {
-      "web_url": "https://still-inlet-56657.herokuapp.com/session-shared/" + username + "/" + sessionId,
-      "mobile_web_url": "https://still-inlet-56657.herokuapp.com/session-shared/" + username + "/" + sessionId
+      "web_url": homeUrl + "/" + username + "/" + sessionId,
+      "mobile_web_url": homeUrl + "/" + username + "/" + sessionId
     },
     "button_title": "세션페이지 바로가기"
   };
@@ -203,8 +201,8 @@ function sendMessageZeroTime (accessToken, username, sessionId){
     "object_type": "text",
     "text": "도착시간이 경과되었습니다!",
     "link": {
-      "web_url": "https://still-inlet-56657.herokuapp.com/session-shared/" + username + "/" + sessionId,
-      "mobile_web_url": "https://still-inlet-56657.herokuapp.com/session-shared/" + username + "/" + sessionId
+      "web_url": homeUrl + "/" + username + "/" + sessionId,
+      "mobile_web_url": homeUrl + "/" + username + "/" + sessionId
     },
     "button_title": "세션페이지 바로가기"
   };
@@ -238,10 +236,10 @@ function sendMessageShare (minute, accessToken, username, userNickname, sessionI
 
   const data = {
     "object_type": "text",
-    "text": userNickname + "님이 도착예정시간 초과 "+minute+"분",
+    "text": userNickname + "님이 도착예정시간을" + minute + "분 초과하였습니다",
     "link": {
-      "web_url": "https://still-inlet-56657.herokuapp.com/session-shared/" + username + "/" + sessionId,
-      "mobile_web_url": "https://still-inlet-56657.herokuapp.com/session-shared/" + username + "/" + sessionId
+      "web_url": homeUrl + "/" + username + "/" + sessionId,
+      "mobile_web_url": homeUrl + "/" + username + "/" + sessionId
     },
     "button_title": "세션페이지 바로가기"
   };
@@ -267,10 +265,10 @@ function sendMessageShare (minute, accessToken, username, userNickname, sessionI
 function sendMessageShareAndUrgent (minute, accessToken, username, userNickname, sessionId, shareList, urgentList){
   const data = {
     "object_type": "text",
-    "text": userNickname + "님이 도착예정시간 초과 "+minute+"분",
+    "text": userNickname + "님이 도착예정시간을" + minute + "분 초과하였습니다",
     "link": {
-      "web_url": "https://still-inlet-56657.herokuapp.com/session-shared/" + username + "/" + sessionId,
-      "mobile_web_url": "https://still-inlet-56657.herokuapp.com/session-shared/" + username + "/" + sessionId
+      "web_url": homeUrl + "/" + username + "/" + sessionId,
+      "mobile_web_url": homeUrl + "/" + username + "/" + sessionId
     },
     "button_title": "세션페이지 바로가기"
   };
@@ -348,10 +346,10 @@ function sendMessageShareAndUrgent (minute, accessToken, username, userNickname,
 function sendMessageFinal (accessToken, userNickname, shareList, urgentList){
   const data = {
     "object_type": "text",
-    "text": userNickname + "님이 한시간 초과 삐용삐용!",
+    "text": userNickname + "님이 도착시간을 한시간 초과하였습니다! 연락을 취해주시기 바랍니다!",
     "link": {
-      "web_url": "https://still-inlet-56657.herokuapp.com",
-      "mobile_web_url": "https://still-inlet-56657.herokuapp.com"
+      "web_url": homeUrl,
+      "mobile_web_url": homeUrl
     },
     "button_title": "가는중! 바로가기"
   };
@@ -435,7 +433,7 @@ function sendMessageDone (accessToken, userNickname, shareList){
 
   const data = {
     "object_type": "text",
-    "text": userNickname + "님이 도착완료했습니다!",
+    "text": userNickname + "님이 도착완료했습니다",
     "link": {
       "web_url": "https://still-inlet-56657.herokuapp.com",
       "mobile_web_url": "https://still-inlet-56657.herokuapp.com"
@@ -466,12 +464,6 @@ function zeroMessageCatcher(){
   Session.find({zeroMessageFlag: false}, function(err, sessions){
     if(err){
       console.log(err);
-      const now = new Date();
-      const error = new Error({
-        errorDate: now,
-        errorContent: "Error at: zeroMessageCatcher"
-      });
-      error.save();
     } else{
       let now = new Date();
 
@@ -483,12 +475,6 @@ function zeroMessageCatcher(){
           Userinfo.findOne({username: username}, function(err, u){
             if(err){
               console.log(err);
-              const now = new Date();
-              const error = new Error({
-                errorDate: now,
-                errorContent: "Error at: zeroMessageCatcher()"
-              });
-              error.save();
             } else{
               const accessToken = u.accessToken;
               sendMessageZeroTime (accessToken, username, sessionId);
@@ -502,12 +488,6 @@ function zeroMessageCatcher(){
           }, function(err) {
             if (err) {
               console.log(err);
-              const now = new Date();
-              const error = new Error({
-                errorDate: now,
-                errorContent: "Error at: zeroMessageCathcher()"
-              });
-              error.save();
             }
           });
         }
@@ -520,12 +500,6 @@ function firstMessageCatcher(){
   Session.find({firstMessageFlag: false}, function(err, sessions){
     if(err){
       console.log(err);
-      const now = new Date();
-      const error = new Error({
-        errorDate: now,
-        errorContent: "Error at: firstMessageCatcher()"
-      });
-      error.save();
     } else{
       let now = new Date();
 
@@ -539,12 +513,6 @@ function firstMessageCatcher(){
           Userinfo.findOne({username: username}, function(err, u){
             if(err){
               console.log(err);
-              const now = new Date();
-              const error = new Error({
-                errorDate: now,
-                errorContent: "Error at: firstMessageCatcher()"
-              });
-              error.save();
             } else{
               const accessToken = u.accessToken;
               const userNickname = u.nickname;
@@ -559,12 +527,6 @@ function firstMessageCatcher(){
           }, function(err) {
             if (err) {
               console.log(err);
-              const now = new Date();
-              const error = new Error({
-                errorDate: now,
-                errorContent: "Error at: firstMessageCatcher()"
-              });
-              error.save();
             }
           });
         }
@@ -577,12 +539,6 @@ function secondMessageCatcher(){
   Session.find({secondMessageFlag: false}, function(err, sessions){
     if(err){
       console.log(err);
-      const now = new Date();
-      const error = new Error({
-        errorDate: now,
-        errorContent: "Error at: secondMessageCatcher()"
-      });
-      error.save();
     } else{
       let now = new Date();
 
@@ -596,12 +552,6 @@ function secondMessageCatcher(){
           Userinfo.findOne({username: username}, function(err, u){
             if(err){
               console.log(err);
-              const now = new Date();
-              const error = new Error({
-                errorDate: now,
-                errorContent: "Error at: secondMessageCatcher()"
-              });
-              error.save();
             } else{
               const accessToken = u.accessToken;
               const userNickname = u.nickname;
@@ -616,12 +566,6 @@ function secondMessageCatcher(){
           }, function(err) {
             if (err) {
               console.log(err);
-              const now = new Date();
-              const error = new Error({
-                errorDate: now,
-                errorContent: "Error at: secondMessageCatcher()"
-              });
-              error.save();
             }
           });
         }
@@ -634,12 +578,6 @@ function thirdMessageCatcher(){
   Session.find({thirdMessageFlag: false}, function(err, sessions){
     if(err){
       console.log(err);
-      const now = new Date();
-      const error = new Error({
-        errorDate: now,
-        errorContent: "Error at: thirdMessageCatcher()"
-      });
-      error.save();
     } else{
       let now = new Date();
 
@@ -653,12 +591,6 @@ function thirdMessageCatcher(){
           Userinfo.findOne({username: username}, function(err, u){
             if(err){
               console.log(err);
-              const now = new Date();
-              const error = new Error({
-                errorDate: now,
-                errorContent: "Error at: thirdMessageCatcher()"
-              });
-              error.save();
             } else{
               const accessToken = u.accessToken;
               const userNickname = u.nickname;
@@ -674,12 +606,6 @@ function thirdMessageCatcher(){
           }, function(err) {
             if (err) {
               console.log(err);
-              const now = new Date();
-              const error = new Error({
-                errorDate: now,
-                errorContent: "Error at: thirdMessageCatcher()"
-              });
-              error.save();
             }
           });
         }
@@ -692,12 +618,6 @@ function forthMessageCatcher(){
   Session.find({forthMessageFlag: false}, function(err, sessions){
     if(err){
       console.log(err);
-      const now = new Date();
-      const error = new Error({
-        errorDate: now,
-        errorContent: "Error at: forthMessageCatcher()"
-      });
-      error.save();
     } else{
       let now = new Date();
 
@@ -711,12 +631,6 @@ function forthMessageCatcher(){
           Userinfo.findOne({username: username}, function(err, u){
             if(err){
               console.log(err);
-              const now = new Date();
-              const error = new Error({
-                errorDate: now,
-                errorContent: "Error at: forthMessageCatcher()"
-              });
-              error.save();
             } else{
               const accessToken = u.accessToken;
               const userNickname = u.nickname;
@@ -732,12 +646,6 @@ function forthMessageCatcher(){
           }, function(err) {
             if (err) {
               console.log(err);
-              const now = new Date();
-              const error = new Error({
-                errorDate: now,
-                errorContent: "Error at: forthMessageCatcher()"
-              });
-              error.save();
             }
           });
         }
@@ -750,12 +658,6 @@ function fifthMessageCatcher(){
   Session.find({fifthMessageFlag: false}, function(err, sessions){
     if(err){
       console.log(err);
-      const now = new Date();
-      const error = new Error({
-        errorDate: now,
-        errorContent: "Error at: fifthMessageCatcher()"
-      });
-      error.save();
     } else{
       let now = new Date();
 
@@ -769,12 +671,6 @@ function fifthMessageCatcher(){
           Userinfo.findOne({username: username}, function(err, u){
             if(err){
               console.log(err);
-              const now = new Date();
-              const error = new Error({
-                errorDate: now,
-                errorContent: "Error at: fifthMessageCatcher()"
-              });
-              error.save();
             } else{
               const accessToken = u.accessToken;
               const userNickname = u.nickname;
@@ -790,12 +686,6 @@ function fifthMessageCatcher(){
           }, function(err) {
             if (err) {
               console.log(err);
-              const now = new Date();
-              const error = new Error({
-                errorDate: now,
-                errorContent: "Error at: fifthMessageCatcher()"
-              });
-              error.save();
             }
           });
         }
@@ -808,12 +698,6 @@ function finalMessageCatcher(){
   Session.find({finalMessageFlag: false}, function(err, sessions){
     if(err){
       console.log(err);
-      const now = new Date();
-      const error = new Error({
-        errorDate: now,
-        errorContent: "Error at: finalMessageCatcher()"
-      });
-      error.save();
     } else{
       let now = new Date();
 
@@ -827,12 +711,6 @@ function finalMessageCatcher(){
           Userinfo.findOne({username: username}, function(err, u){
             if(err){
               console.log(err);
-              const now = new Date();
-              const error = new Error({
-                errorDate: now,
-                errorContent: "Error at: finalMessageCatcher()"
-              });
-              error.save();
             } else{
               const accessToken = u.accessToken;
               const userNickname = u.nickname;
@@ -855,10 +733,10 @@ function finalMessageCatcher(){
 setInterval(zeroMessageCatcher, 5000);
 setInterval(firstMessageCatcher, 5000);
 setInterval(secondMessageCatcher, 5000);
-setInterval(thirdMessageCatcher, 5000);
-setInterval(forthMessageCatcher, 5000);
-setInterval(fifthMessageCatcher, 5000);
-setInterval(finalMessageCatcher, 5000);
+setInterval(thirdMessageCatcher, 10000);
+setInterval(forthMessageCatcher, 10000);
+setInterval(fifthMessageCatcher, 10000);
+setInterval(finalMessageCatcher, 10000);
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -892,12 +770,6 @@ app.get("/oauth", function(req, res) {
               Userinfo.findOne({username: userKakaoId}, function(err, u){
                 if(err){
                   console.log(err);
-                  const now = new Date();
-                  const error = new Error({
-                    errorDate: now,
-                    errorContent: "Error at: app.get.oauth " + String(err)
-                  });
-                  error.save();
                   res.redirect("/");
                 } else{
                   if(u === null){
@@ -921,12 +793,7 @@ app.get("/oauth", function(req, res) {
                     }, function(err){
                       if(err){
                         console.log(err);
-                        const now = new Date();
-                        const error = new Error({
-                          errorDate: now,
-                          errorContent: "Error at: app.get.oauth " + String(err)
-                        });
-                        error.save();
+                        res.redirect("/");
                       }
                     });
                     res.redirect("/authen/" + userKakaoId);
@@ -953,12 +820,6 @@ app.get("/authen/:username", function(req, res){
   Userinfo.findOne({username: String(getUsername)}, function(err, u){
     if(err){
       console.log(err);
-      const now = new Date();
-      const error = new Error({
-        errorDate: now,
-        errorContent: "Error at: app.get.authen " + String(err)
-      });
-      error.save();
       res.redirect("/");
     } else{
       if(u === null){
@@ -982,12 +843,6 @@ app.post("/authen/:username", function(req, res){
   User.findOne({username: String(getUsername)}, function(err, u){
     if(err){
       console.log(err);
-      const now = new Date();
-      const error = new Error({
-        errorDate: now,
-        errorContent: "Error at: app.post.authen " + String(err)
-      });
-      error.save();
       res.redirect("/");
     } else{
       if(u === null){
@@ -995,12 +850,6 @@ app.post("/authen/:username", function(req, res){
         User.register({username: req.body.username}, req.body.password, function(err, user){
           if(err){
             console.log(err);
-            const now = new Date();
-            const error = new Error({
-              errorDate: now,
-              errorContent: "Error at: app.post.authen " + String(err)
-            });
-            error.save();
             res.redirect("/");
           } else{
             passport.authenticate("local")(req, res, function(){
@@ -1050,15 +899,9 @@ app.get("/unlink", function(req, res){
     Userinfo.findOne({username: String(getUsername)}, function(err, u){
       if(err){
         console.log(err);
-        const now = new Date();
-        const error = new Error({
-          errorDate: now,
-          errorContent: "Error at: app.get.unlink " + String(err)
-        });
-        error.save();
         res.redirect("/");
       } else{
-        if(u ===null) {
+        if(u === null) {
           res.redirect("/");
         } else{
           const getNickname = u.nickname;
@@ -1081,12 +924,6 @@ app.post("/unlink/:username", function(req, res){
   Userinfo.findOne({username: String(getUsername)}, function(err, u){
     if(err){
       console.log(err);
-      const now = new Date();
-      const error = new Error({
-        errorDate: now,
-        errorContent: "Error at: app.post.unlink " + String(err)
-      });
-      error.save();
       res.redirect("/");
     } else{
       if(u === null){
@@ -1134,12 +971,6 @@ app.get("/session-list/:username", function(req, res){
     Userinfo.findOne({username: String(getUsername)}, function(err, user){
       if(err){
         console.log(err);
-        const now = new Date();
-        const error = new Error({
-          errorDate: now,
-          errorContent: "Error at: app.get.sessionlist " + String(err)
-        });
-        error.save();
         res.redirect("/");
       } else{
         if(user === null){
@@ -1153,12 +984,6 @@ app.get("/session-list/:username", function(req, res){
           Session.find({createUser: String(getUsername)}, function(err, sessions){
             if(err){
               console.log(err);
-              const now = new Date();
-              const error = new Error({
-                errorDate: now,
-                errorContent: "Error at: app.get.sessionlist " + String(err)
-              });
-              error.save();
               res.redirect("/");
             } else{
               sessions.forEach(function(s) {
@@ -1204,67 +1029,15 @@ app.get("/session-create/:username", function(req, res){
     Userinfo.findOne({username: String(getUsername)}, function(err, user){
       if(err){
         console.log(err);
-        const now = new Date();
-        const error = new Error({
-          errorDate: now,
-          errorContent: "Error at: app.get.session-create " + String(err)
-        });
-        error.save();
         res.redirect("/");
       } else{
         if(user === null){
           res.redirect("/");
         } else{
-          const accessToken = user.accessToken;
-          const userNickname = user.nickname;
-          const userProfile = user.profile;
-
-          const options = {
-            headers: {
-              Authorization: "Bearer " + accessToken
-            }
-          }
-          const getPermissionListUrl = "https://kapi.kakao.com/v2/user/scopes";
-          https.get(getPermissionListUrl, options, function(response){
-            if(response.statusCode === 200){
-              response.on("data", function(data){
-                const permissionListData = JSON.parse(data);
-                const permissionList = permissionListData.scopes;
-
-                let permissionNeeded = false;
-                if (permissionList.length >= 4){
-                  for (let i = 0; i < permissionList.length; i++){
-                    if(permissionList[i].id === "friends" || permissionList[i].id === "talk_message"){
-                      if(permissionList[i].agreed === false){
-                        permissionNeeded = true;
-                      }
-                    }
-                  }
-                } else{
-                  permissionNeeded = true;
-                }
-
-                if(permissionNeeded === true){
-                  const permissionUrl = "https://kauth.kakao.com/oauth/authorize?client_id="+restApiKey+"&redirect_uri=" + redirectUrl+ "&response_type=code&scope=friends,talk_message";
-                  res.redirect(permissionUrl);
-                } else{
-                  res.render("session-create", {
-                    bodyUsername: getUsername,
-                    bodyUserProfile: userProfile,
-                    bodyUserNickname: userNickname
-                  });
-                }
-              });
-            } else{
-              console.log(response.statusCode);
-              const now = new Date();
-              const error = new Error({
-                errorDate: now,
-                errorContent: "Error at: app.get.session-create" + String(response.statusCode)
-              });
-              error.save();
-              res.redirect("/");
-            }
+          res.render("session-create", {
+            bodyUsername: getUsername,
+            bodyUserProfile: userProfile,
+            bodyUserNickname: userNickname
           });
         }
       }
@@ -1280,12 +1053,6 @@ app.post("/session-create/:username", function(req, res){
   Session.find({createUser: String(getUsername)}, function(err, sessions){
     if(err){
       console.log(err);
-      const now = new Date();
-      const error = new Error({
-        errorDate: now,
-        errorContent: "Error at: app.post.session-create " + String(err)
-      });
-      error.save();
       res.redirect("/");
     } else{
       if(sessions.length < 5){
@@ -1330,7 +1097,7 @@ app.post("/session-create/:username", function(req, res){
           Arrive: selectedArrive
         });
         session.save();
-        res.redirect("/session-list/" + getUsername);
+        res.redirect("/");
       } else{
         console.log("cannot create session 6! " + getUsername);
         res.redirect("/");
@@ -1347,12 +1114,6 @@ app.get("/session-update/:username/:sessionId", function(req, res){
     Userinfo.findOne({username: String(getUsername)}, function(err, u){
       if(err){
         console.log(err);
-        const now = new Date();
-        const error = new Error({
-          errorDate: now,
-          errorContent: "Error at: app.get.session-update " + String(err)
-        });
-        error.save();
         res.redirect("/");
       } else{
         if(u === null){
@@ -1364,12 +1125,6 @@ app.get("/session-update/:username/:sessionId", function(req, res){
           Session.findById(sessionId, function(err, s){
             if(err){
               console.log(err);
-              const now = new Date();
-              const error = new Error({
-                errorDate: now,
-                errorContent: "Error at: app.get.session-update " + String(err)
-              });
-              error.save();
               res.redirect("/");
             } else{
               let sessionUpdateView = {
@@ -1454,15 +1209,10 @@ app.post("/session-update/:username/:sessionId", function(req, res){
   }, function(err) {
     if (err) {
       console.log(err);
-      const now = new Date();
-      const error = new Error({
-        errorDate: now,
-        errorContent: "Error at: app.post.session-update" + String(err)
-      });
-      error.save();
+      res.redirect("/");
     }
   });
-  res.redirect("/session-list/" + getUsername);
+  res.redirect("/");
 });
 
 app.get("/session-shared/:username/:sessionId", function(req, res){
@@ -1472,12 +1222,6 @@ app.get("/session-shared/:username/:sessionId", function(req, res){
   Userinfo.findOne({username: String(getUsername)}, function(err, u){
     if(err){
       console.log(err);
-      const now = new Date();
-      const error = new Error({
-        errorDate: now,
-        errorContent: "Error at: app.get.session-shared " + String(err)
-      });
-      error.save();
       res.redirect("/");
     } else{
       if(u === null){
@@ -1489,12 +1233,6 @@ app.get("/session-shared/:username/:sessionId", function(req, res){
         Session.findById(sessionId, function(err, s){
           if(err){
             console.log(err);
-            const now = new Date();
-            const error = new Error({
-              errorDate: now,
-              errorContent: "Error at: app.get.session-shared " + String(err)
-            });
-            error.save();
             res.redirect("/");
           } else{
             if(s === null){
@@ -1537,7 +1275,7 @@ app.post("/session-delete/:username/:sessionId", function(req, res) {
       console.log("deleteItem Success" + sessionId);
     }
   });
-  res.redirect("/session-list/" + getUsername);
+  res.redirect("/");
 });
 
 app.post("/session-done/:username/:sessionId", function(req, res){
@@ -1547,12 +1285,6 @@ app.post("/session-done/:username/:sessionId", function(req, res){
   Userinfo.findOne({username: String(getUsername)}, function(err, u){
     if(err){
       console.log(err);
-      const now = new Date();
-      const error = new Error({
-        errorDate: now,
-        errorContent: "Error at: app.post.session-done " + String(err)
-      });
-      error.save();
       res.redirect("/");
     } else{
       if(u === null){
@@ -1581,7 +1313,7 @@ app.post("/session-done/:username/:sessionId", function(req, res){
             console.log("Arrive!" + sessionId);
           }
         });
-        res.redirect("/session-list/" + getUsername);
+        res.redirect("/");
       }
     }
   });
@@ -1594,12 +1326,6 @@ app.get("/urgent-list/:username", function(req, res){
     Userinfo.findOne({username: String(getUsername)}, function(err, user){
       if(err){
         console.log(err);
-        const now = new Date();
-        const error = new Error({
-          errorDate: now,
-          errorContent: "Error at: app.get.urgent-list " + String(err)
-        });
-        error.save();
         res.redirect("/");
       } else{
         if(user === null) {
@@ -1632,12 +1358,6 @@ app.get("/friend-list-urgent/:username", function(req, res){
     Userinfo.findOne({username: String(getUsername)}, function(err, user){
       if(err){
         console.log(err);
-        const now = new Date();
-        const error = new Error({
-          errorDate: now,
-          errorContent: "Error at: friend-list-urgent " + String(err)
-        });
-        error.save();
         res.redirect("/");
       } else{
         const accessToken = user.accessToken;
@@ -1669,12 +1389,6 @@ app.get("/friend-list-urgent/:username", function(req, res){
             });
           } else{
             console.log(response.statusCode);
-            const now = new Date();
-            const error = new Error({
-              errorDate: now,
-              errorContent: "Error at: app.get.friend-list-urgent " + String(response.statusCode)
-            });
-            error.save();
             res.redirect("/");
           }
         });
@@ -1695,12 +1409,6 @@ app.post("/urgent-list-create/:username", function(req, res){
     Userinfo.findOne({username: String(getUsername)}, function(err, user){
       if(err){
         console.log(err);
-        const now = new Date();
-        const error = new Error({
-          errorDate: now,
-          errorContent: "Error at: app.post.urgent-list-create" + String(err)
-        });
-        error.save();
         res.redirect("/");
       } else{
         const accessToken = user.accessToken;
@@ -1742,24 +1450,12 @@ app.post("/urgent-list-create/:username", function(req, res){
                 }, function(err){
                   if(err){
                     console.log(err);
-                    const now = new Date();
-                    const error = new Error({
-                      errorDate: now,
-                      errorContent: "Error at: app.post.urgent-list-create " + String(err)
-                    });
-                    error.save();
                   }
                 });
                 res.redirect("/urgent-list/" + getUsername);
               });
             } else{
               console.log(response.statusCode);
-              const now = new Date();
-              const error = new Error({
-                errorDate: now,
-                errorContent: "Error at: app.post.urgent-list-create" + String(response.statusCode)
-              });
-              error.save();
               res.redirect("/");
             }
           });
@@ -1779,12 +1475,6 @@ app.post("/urgent-list-delete/:username/:urgentFriendname", function(req, res){
   Userinfo.findOne({username: String(getUsername)}, function(err, user){
     if(err){
       console.log(err);
-      const now = new Date();
-      const error = new Error({
-        errorDate: now,
-        errorContent: "Error at: app.post.urgent-list-delete " + String(err)
-      });
-      error.save();
       res.redirect("/");
     } else{
       const currentUrgentList = user.urgentList;
@@ -1796,12 +1486,6 @@ app.post("/urgent-list-delete/:username/:urgentFriendname", function(req, res){
       }, function(err){
         if(err){
           console.log(err);
-          const now = new Date();
-          const error = new Error({
-            errorDate: now,
-            errorContent: "Error at: app.post.urgent-list-delete " + String(err)
-          });
-          error.save();
         }
       });
       res.redirect("/urgent-list/" + getUsername);
@@ -1817,12 +1501,6 @@ app.get("/share-list/:username/:sessionId", function(req, res){
     Userinfo.findOne({username: String(getUsername)}, function(err, u){
       if(err){
         console.log(err);
-        const now = new Date();
-        const error = new Error({
-          errorDate: now,
-          errorContent: "Error at: app.get.share-list " + String(err)
-        });
-        error.save();
         res.redirect("/");
       } else{
         const userNickname = u.nickname;
@@ -1831,12 +1509,6 @@ app.get("/share-list/:username/:sessionId", function(req, res){
         Session.findById(sessionId, function(err, s){
           if(err){
             console.log(err);
-            const now = new Date();
-            const error = new Error({
-              errorDate: now,
-              errorContent: "Error at: app.get.share-list " + String(err)
-            });
-            error.save();
             res.redirect("/");
           } else{
             let sessionView = {
@@ -1873,12 +1545,6 @@ app.get("/friend-list-share/:username/:sessionId", function(req, res){
     Userinfo.findOne({username: String(getUsername)}, function(err, user){
       if(err){
         console.log(err);
-        const now = new Date();
-        const error = new Error({
-          errorDate: now,
-          errorContent: "Error at: app.get.friend-list-share " + String(err)
-        });
-        error.save();
         res.redirect("/");
       } else{
         const accessToken = user.accessToken;
@@ -1909,16 +1575,9 @@ app.get("/friend-list-share/:username/:sessionId", function(req, res){
                 bodySessionId: sessionId,
                 friendItems: friendlistViews
               });
-
             });
           } else{
             console.log(response.statusCode);
-            const now = new Date();
-            const error = new Error({
-              errorDate: now,
-              errorContent: "Error at: app.get.friend-list-share " + String(response.statusCode)
-            });
-            error.save();
             res.redirect("/");
           }
         });
@@ -1944,12 +1603,6 @@ app.post("/share-list-update/:username/:sessionId", function(req, res){
     }, function(err) {
       if (err) {
         console.log(err);
-        const now = new Date();
-        const error = new Error({
-          errorDate: now,
-          errorContent: "Error at: app.post.share-list-update " + String(err)
-        });
-        error.save();
       }
     });
     res.redirect("/share-list/" + getUsername + "/" + sessionId);
@@ -1959,12 +1612,6 @@ app.post("/share-list-update/:username/:sessionId", function(req, res){
       Userinfo.findOne({username: getUsername}, function(err, u){
         if(err){
           console.log(err);
-          const now = new Date();
-          const error = new Error({
-            errorDate: now,
-            errorContent: "Error at: app.post.share-list-update " + String(err)
-          });
-          error.save();
           res.redirect("/");
         } else{
           const accessToken = u.accessToken;
@@ -1999,20 +1646,14 @@ app.post("/share-list-update/:username/:sessionId", function(req, res){
                 }, function(err) {
                   if (err) {
                     console.log(err);
-                    const now = new Date();
-                    const error = new Error({
-                      errorDate: now,
-                      errorContent: "Error at: app.post.share-list-update " + String(err)
-                    });
-                    error.save();
                   }
                 });
                 //send message
-                senMessageShareCreate (accessToken, getUsername, userNickname, sessionId, newShareList);
+                sendMessageShareCreate (accessToken, getUsername, userNickname, sessionId, newShareList);
                 res.redirect("/share-list/" + getUsername + "/" + sessionId);
               });
             } else{
-              console.log("no!");
+              console.log(response.statusCode);
               redirect("/");
             }
           });
@@ -2065,20 +1706,14 @@ app.post("/share-list-update/:username/:sessionId", function(req, res){
                 }, function(err) {
                   if (err) {
                     console.log(err);
-                    const now = new Date();
-                    const error = new Error({
-                      errorDate: now,
-                      errorContent: "Error at: app.post.share-list " + String(err)
-                    });
-                    error.save();
                   }
                 });
                 //send message
-                senMessageShareCreate (accessToken, getUsername, userNickname, sessionId, newShareList);
+                sendMessageShareCreate (accessToken, getUsername, userNickname, sessionId, newShareList);
                 res.redirect("/share-list/" + getUsername + "/" + sessionId);
               });
             } else{
-              console.log("no!");
+              console.log(response.statusCode);
               redirect("/");
             }
           });
@@ -2094,7 +1729,6 @@ app.get("/OMWteam", function(req, res){
 
 app.get("/", function(req, res) {
   if(req.isAuthenticated()){
-    console.log("hello! " + req.user.username);
     const getUsername = req.user.username;
 
     Userinfo.findOne({username: getUsername}, function(err, u){
@@ -2135,29 +1769,19 @@ app.get("/", function(req, res) {
             });
           } else{
             console.log(response.statusCode);
-            const now = new Date();
-            const error = new Error({
-              errorDate: now,
-              errorContent: String(response.statusCode)
-            });
-            error.save();
           }
         });
       }
     });
   } else{
-    const url = "https://kauth.kakao.com/oauth/authorize?client_id=" + restApiKey + "&redirect_uri="+ redirectUrl + "&response_type=code";
+    const oauthUrl = "https://kauth.kakao.com/oauth/authorize?client_id=" + restApiKey + "&redirect_uri="+ redirectUrl + "&response_type=code";
     res.render("home", {
-      kakao_login_url: url
+      kakao_login_url: oauthUrl
     });
   }
 });
 
-/*
-app.listen(process.env.PORT || 3000, function() {
-  console.log("Server is running on port 3000");
-});
-*/
+
 app.listen(8001, function() {
   console.log("Server is running on port 8001");
 });
