@@ -171,7 +171,7 @@ function sendMessageShareCreate (accessToken, username, userNickname, sessionId,
 
   const data = {
     "object_type": "text",
-    "text": userNickname + "님이 이동상황을 공유합니다",
+    "text": userNickname + "님이 이동상황을 공유합니다 " +emoji.get("rotating_light"),
     "link": {
       "web_url": homeUrl + "/" + username + "/" + sessionId,
       "mobile_web_url": homeUrl + "/" + username + "/" + sessionId
@@ -1784,5 +1784,5 @@ app.get("/", function(req, res) {
 
 
 app.listen(8001, function() {
-  console.log("Server is running on port 8001" + emoji.get("coffee"));
+  console.log("Server is running on port 8001");
 });
