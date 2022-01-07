@@ -2141,7 +2141,6 @@ app.get("/", function(req, res) {
               errorContent: String(response.statusCode)
             });
             error.save();
-            res.redirect("/");
           }
         });
       }
