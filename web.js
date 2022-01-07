@@ -1035,6 +1035,9 @@ app.get("/session-create/:username", function(req, res){
         if(user === null){
           res.redirect("/");
         } else{
+          const userProfile = user.profile;
+          const userNickname = user.nickname;
+          
           res.render("session-create", {
             bodyUsername: getUsername,
             bodyUserProfile: userProfile,
