@@ -6,6 +6,7 @@ const ejs = require("ejs");
 const request = require("request");
 const mongoose = require("mongoose");
 const https = require("https");
+const emoji = require("node-emoji");
 
 //authenticating
 const session = require("express-session");
@@ -1783,5 +1784,5 @@ app.get("/", function(req, res) {
 
 
 app.listen(8001, function() {
-  console.log("Server is running on port 8001");
+  console.log("Server is running on port 8001" + emoji.which(emoji.get("coffee")));
 });
