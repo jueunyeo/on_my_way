@@ -134,7 +134,7 @@ function sendMessageUrgentCreate (accessToken, userNickname, urgentUuid){
 
   const data = {
     "object_type": "text",
-    "text": userNickname + "님의 비상연락처로 등록되셨습니다",
+    "text": emoji.get("children_crossing") + " " + userNickname + "님의 비상연락처로 등록되셨습니다",
     "link": {
       "web_url": homeUrl,
       "mobile_web_url": homeUrl
@@ -171,7 +171,7 @@ function sendMessageShareCreate (accessToken, username, userNickname, sessionId,
 
   const data = {
     "object_type": "text",
-    "text": userNickname + "님이 이동상황을 공유합니다 ",
+    "text": emoji.get("traffic_light") + " "+ userNickname + "님이 이동상황을 공유합니다 ",
     "link": {
       "web_url": homeUrl + "/session-shared/" + username + "/" + sessionId,
       "mobile_web_url": homeUrl + "/session-shared/" + username + "/" + sessionId
@@ -200,7 +200,7 @@ function sendMessageShareCreate (accessToken, username, userNickname, sessionId,
 function sendMessageZeroTime (accessToken, username, sessionId){
   const data = {
     "object_type": "text",
-    "text": "도착시간이 경과되었습니다!",
+    "text": emoji.get("ballot_box_with_check") + " " + "도착시간이 경과되었습니다! 도착하셨다면, 도착완료를 눌러 세션을 종료시켜주세요",
     "link": {
       "web_url": homeUrl + "/session-shared/" + username + "/" + sessionId,
       "mobile_web_url": homeUrl + "/session-shared/" + username + "/" + sessionId
@@ -237,7 +237,7 @@ function sendMessageShare (minute, accessToken, username, userNickname, sessionI
 
   const data = {
     "object_type": "text",
-    "text": userNickname + "님의 도착예정시간이" + minute + "분 초과되었습니다",
+    "text": emoji.get("warning") + " " +userNickname + "님의 도착예정시간이" + minute + "분 초과되었습니다",
     "link": {
       "web_url": homeUrl + "/session-shared/" + username + "/" + sessionId,
       "mobile_web_url": homeUrl + "/session-shared/" + username + "/" + sessionId
@@ -266,7 +266,7 @@ function sendMessageShare (minute, accessToken, username, userNickname, sessionI
 function sendMessageShareAndUrgent (minute, accessToken, username, userNickname, sessionId, shareList, urgentList){
   const data = {
     "object_type": "text",
-    "text": userNickname + "님의 도착예정시간이" + minute + "분 초과되었습니다",
+    "text": emoji.get("rotating_light") + " " + userNickname + "님의 도착예정시간이" + minute + "분 초과되었습니다",
     "link": {
       "web_url": homeUrl + "/session-shared/" + username + "/" + sessionId,
       "mobile_web_url": homeUrl + "/session-shared/" + username + "/" + sessionId
@@ -347,7 +347,7 @@ function sendMessageShareAndUrgent (minute, accessToken, username, userNickname,
 function sendMessageFinal (accessToken, userNickname, shareList, urgentList){
   const data = {
     "object_type": "text",
-    "text": emoji.get("rotating_light") + " " + userNickname + "님이 도착시간을 한시간 초과하였습니다! 연락을 취해주시기 바랍니다!",
+    "text": emoji.get("sos") + " " + userNickname + "님의 도착시간이 1시간 초과되었습니다! 연락을 취해주시기 바랍니다!",
     "link": {
       "web_url": homeUrl,
       "mobile_web_url": homeUrl
@@ -434,7 +434,7 @@ function sendMessageDone (accessToken, userNickname, shareList){
 
   const data = {
     "object_type": "text",
-    "text": userNickname + "님이 도착완료했습니다",
+    "text": emoji.get("white_check_mark") + " " + userNickname + "님이 도착완료했습니다",
     "link": {
       "web_url": homeUrl,
       "mobile_web_url": homeUrl
@@ -1785,8 +1785,6 @@ app.get("/", function(req, res) {
   }
 });
 
-
 app.listen(8001, function() {
-  console.clear();
   console.log("Server is running on port 8001");
 });
