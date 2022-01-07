@@ -236,7 +236,7 @@ function sendMessageShare (minute, accessToken, username, userNickname, sessionI
 
   const data = {
     "object_type": "text",
-    "text": userNickname + "님이 도착예정시간을" + minute + "분 초과하였습니다",
+    "text": userNickname + "님의 도착예정시간이" + minute + "분 초과되었습니다",
     "link": {
       "web_url": homeUrl + "/" + username + "/" + sessionId,
       "mobile_web_url": homeUrl + "/" + username + "/" + sessionId
@@ -265,7 +265,7 @@ function sendMessageShare (minute, accessToken, username, userNickname, sessionI
 function sendMessageShareAndUrgent (minute, accessToken, username, userNickname, sessionId, shareList, urgentList){
   const data = {
     "object_type": "text",
-    "text": userNickname + "님이 도착예정시간을" + minute + "분 초과하였습니다",
+    "text": userNickname + "님의 도착예정시간이" + minute + "분 초과되었습니다",
     "link": {
       "web_url": homeUrl + "/" + username + "/" + sessionId,
       "mobile_web_url": homeUrl + "/" + username + "/" + sessionId
