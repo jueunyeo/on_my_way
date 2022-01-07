@@ -1787,5 +1787,6 @@ app.get("/", function(req, res) {
 
 
 app.listen(8001, function() {
+  console.clear();
   console.log("Server is running on port 8001");
 });
