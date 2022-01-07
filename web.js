@@ -171,10 +171,10 @@ function sendMessageShareCreate (accessToken, username, userNickname, sessionId,
 
   const data = {
     "object_type": "text",
-    "text": userNickname + "님이 이동상황을 공유합니다 " +emoji.get("rotating_light"),
+    "text": userNickname + "님이 이동상황을 공유합니다 ",
     "link": {
-      "web_url": homeUrl + "/" + username + "/" + sessionId,
-      "mobile_web_url": homeUrl + "/" + username + "/" + sessionId
+      "web_url": homeUrl + "/session-shared/" + username + "/" + sessionId,
+      "mobile_web_url": homeUrl + "/session-shared/" + username + "/" + sessionId
     },
     "button_title": "세션페이지 바로가기"
   };
@@ -202,8 +202,8 @@ function sendMessageZeroTime (accessToken, username, sessionId){
     "object_type": "text",
     "text": "도착시간이 경과되었습니다!",
     "link": {
-      "web_url": homeUrl + "/" + username + "/" + sessionId,
-      "mobile_web_url": homeUrl + "/" + username + "/" + sessionId
+      "web_url": homeUrl + "/session-shared/" + username + "/" + sessionId,
+      "mobile_web_url": homeUrl + "/session-shared/" + username + "/" + sessionId
     },
     "button_title": "세션페이지 바로가기"
   };
@@ -239,8 +239,8 @@ function sendMessageShare (minute, accessToken, username, userNickname, sessionI
     "object_type": "text",
     "text": userNickname + "님의 도착예정시간이" + minute + "분 초과되었습니다",
     "link": {
-      "web_url": homeUrl + "/" + username + "/" + sessionId,
-      "mobile_web_url": homeUrl + "/" + username + "/" + sessionId
+      "web_url": homeUrl + "/session-shared/" + username + "/" + sessionId,
+      "mobile_web_url": homeUrl + "/session-shared/" + username + "/" + sessionId
     },
     "button_title": "세션페이지 바로가기"
   };
@@ -268,8 +268,8 @@ function sendMessageShareAndUrgent (minute, accessToken, username, userNickname,
     "object_type": "text",
     "text": userNickname + "님의 도착예정시간이" + minute + "분 초과되었습니다",
     "link": {
-      "web_url": homeUrl + "/" + username + "/" + sessionId,
-      "mobile_web_url": homeUrl + "/" + username + "/" + sessionId
+      "web_url": homeUrl + "/session-shared/" + username + "/" + sessionId,
+      "mobile_web_url": homeUrl + "/session-shared/" + username + "/" + sessionId
     },
     "button_title": "세션페이지 바로가기"
   };
@@ -347,7 +347,7 @@ function sendMessageShareAndUrgent (minute, accessToken, username, userNickname,
 function sendMessageFinal (accessToken, userNickname, shareList, urgentList){
   const data = {
     "object_type": "text",
-    "text": userNickname + "님이 도착시간을 한시간 초과하였습니다! 연락을 취해주시기 바랍니다!",
+    "text": emoji.get("rotating_light") + " " + userNickname + "님이 도착시간을 한시간 초과하였습니다! 연락을 취해주시기 바랍니다!",
     "link": {
       "web_url": homeUrl,
       "mobile_web_url": homeUrl
@@ -436,8 +436,8 @@ function sendMessageDone (accessToken, userNickname, shareList){
     "object_type": "text",
     "text": userNickname + "님이 도착완료했습니다",
     "link": {
-      "web_url": "https://still-inlet-56657.herokuapp.com",
-      "mobile_web_url": "https://still-inlet-56657.herokuapp.com"
+      "web_url": homeUrl,
+      "mobile_web_url": homeUrl
     },
     "button_title": "가는중! 바로가기"
   };
@@ -1037,7 +1037,7 @@ app.get("/session-create/:username", function(req, res){
         } else{
           const userProfile = user.profile;
           const userNickname = user.nickname;
-          
+
           res.render("session-create", {
             bodyUsername: getUsername,
             bodyUserProfile: userProfile,
