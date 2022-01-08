@@ -57,6 +57,11 @@ html, body {
   font-weight: 300;
   color: #ffffff;
 }
+.omw-font-light-yellow{
+  font-family: 'IBM Plex Sans KR', sans-serif;
+  font-weight: 300;
+  color: #fcb735;
+}
 .omw-footer{
     width: 100%;
     height: 150px;
