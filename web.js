@@ -1731,6 +1731,10 @@ app.get("/OMWteam", function(req, res){
   res.render("omw-team-info");
 });
 
+app.get("/OMWprivacyPolicy", function(req, res){
+  res.render("omw-privacy-policy");
+});
+
 app.get("/", function(req, res) {
   if(req.isAuthenticated()){
     const getUsername = req.user.username;
