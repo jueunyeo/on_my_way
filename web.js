@@ -176,7 +176,7 @@ function sendMessageShareCreate (accessToken, username, userNickname, sessionId,
       "web_url": homeUrl + "/session-shared/" + username + "/" + sessionId,
       "mobile_web_url": homeUrl + "/session-shared/" + username + "/" + sessionId
     },
-    "button_title": "세션페이지 바로가기"
+    "button_title": "이동상황 보러가기"
   };
   const jsonData = JSON.stringify(data);
 
@@ -205,7 +205,7 @@ function sendMessageZeroTime (accessToken, username, sessionId){
       "web_url": homeUrl + "/session-shared/" + username + "/" + sessionId,
       "mobile_web_url": homeUrl + "/session-shared/" + username + "/" + sessionId
     },
-    "button_title": "세션페이지 바로가기"
+    "button_title": "이동상황 보러가기"
   };
   const jsonData = JSON.stringify(data);
 
@@ -242,7 +242,7 @@ function sendMessageShare (minute, accessToken, username, userNickname, sessionI
       "web_url": homeUrl + "/session-shared/" + username + "/" + sessionId,
       "mobile_web_url": homeUrl + "/session-shared/" + username + "/" + sessionId
     },
-    "button_title": "세션페이지 바로가기"
+    "button_title": "이동상황 보러가기"
   };
   const jsonData = JSON.stringify(data);
 
@@ -271,7 +271,7 @@ function sendMessageShareAndUrgent (minute, accessToken, username, userNickname,
       "web_url": homeUrl + "/session-shared/" + username + "/" + sessionId,
       "mobile_web_url": homeUrl + "/session-shared/" + username + "/" + sessionId
     },
-    "button_title": "세션페이지 바로가기"
+    "button_title": "이동상황 보러가기"
   };
   const jsonData = JSON.stringify(data);
 
@@ -962,6 +962,7 @@ app.post("/unlink/:username", function(req, res){
     }
   });
 });
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
