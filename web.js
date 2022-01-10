@@ -6,6 +6,7 @@ const ejs = require("ejs");
 const request = require("request");
 const mongoose = require("mongoose");
 const https = require("https");
+const fs = require("fs");
 const emoji = require("node-emoji");
 
 //authenticating
@@ -124,6 +125,11 @@ passport.deserializeUser(function(id, done) {
 const homeUrl = "http://onmyway.co.kr";
 const redirectUrl = "http://onmyway.co.kr/oauth";
 const restApiKey = "a62cbbe436fc36a4056dbeac2897b11d";
+const sslOptions = {
+  key: fs.readFileSync("/ssl/onmyway.co.kr_20220110DC394.key.pem"),
+  cert: fs.readFileSync("/ssl/onmyway.co.kr_20220110DC394.crt.pem"),
+  ca: fs.readFileSync("/ssl/onmyway.co.kr_20220110DC394.ca-bundle.pem")
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -1794,6 +1800,11 @@ app.get("/", function(req, res) {
   }
 });
 
+https.createServer(sslOptions, function(){
+  console.log("Server is running on port 8001");
+}).listen(8001);
+/*
 app.listen(8001, function() {
   console.log("Server is running on port 8001");
 });
+*/
