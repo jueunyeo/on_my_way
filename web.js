@@ -121,8 +121,8 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
-const homeUrl = "http://onmyway.cafe24app.com";
-const redirectUrl = "http://onmyway.cafe24app.com/oauth";
+const homeUrl = "http://onmyway.co.kr";
+const redirectUrl = "http://onmyway.co.kr/oauth";
 const restApiKey = "a62cbbe436fc36a4056dbeac2897b11d";
 
 ////////////////////////////////////////////////////////////////////////////////
