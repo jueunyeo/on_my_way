@@ -237,7 +237,7 @@ function sendMessageShare (minute, accessToken, username, userNickname, sessionI
 
   const data = {
     "object_type": "text",
-    "text": emoji.get("warning") + " " +userNickname + "님의 도착예정시간이" + minute + "분 초과되었습니다",
+    "text": emoji.get("warning") + " " +userNickname + "님의 도착예정시간이 " + minute + "분 초과되었습니다",
     "link": {
       "web_url": homeUrl + "/session-shared/" + username + "/" + sessionId,
       "mobile_web_url": homeUrl + "/session-shared/" + username + "/" + sessionId
@@ -266,7 +266,7 @@ function sendMessageShare (minute, accessToken, username, userNickname, sessionI
 function sendMessageShareAndUrgent (minute, accessToken, username, userNickname, sessionId, shareList, urgentList){
   const data = {
     "object_type": "text",
-    "text": emoji.get("rotating_light") + " " + userNickname + "님의 도착예정시간이" + minute + "분 초과되었습니다",
+    "text": emoji.get("rotating_light") + " " + userNickname + "님의 도착예정시간이 " + minute + "분 초과되었습니다",
     "link": {
       "web_url": homeUrl + "/session-shared/" + username + "/" + sessionId,
       "mobile_web_url": homeUrl + "/session-shared/" + username + "/" + sessionId
@@ -1778,6 +1778,10 @@ app.get("/", function(req, res) {
             });
           } else{
             console.log(response.statusCode);
+            const oauthUrl = "https://kauth.kakao.com/oauth/authorize?client_id=" + restApiKey + "&redirect_uri="+ redirectUrl + "&response_type=code";
+            res.render("home", {
+              kakao_login_url: oauthUrl
+            });
           }
         });
       }
