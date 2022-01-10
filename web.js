@@ -1800,9 +1800,7 @@ app.get("/", function(req, res) {
   }
 });
 
-https.createServer(sslOptions, function(){
-  console.log("Server is running on port 8001");
-}).listen(8001);
+https.createServer(sslOptions, app).listen(8001);
 /*
 app.listen(8001, function() {
   console.log("Server is running on port 8001");
