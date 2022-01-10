@@ -25,7 +25,7 @@
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
-<!-- Kakao JS
+<!-- Kakao JS -->
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script>
   Kakao.init('a02dd66190091e181757e9d40c9cc13e');
@@ -39,8 +39,18 @@
       webUrl: "http://onmyway.co.kr/",
     },
   })
+  Kakao.Link.createDefaultButton({
+    container: '.create-kakao-link-btn-2',
+    objectType: 'text',
+    text:
+      '안전한 생활습관, 가는중!에 초대합니다',
+    link: {
+      mobileWebUrl: "http://onmyway.co.kr",
+      webUrl: "http://onmyway.co.kr/",
+    },
+  })
 </script>
--->
+
 </body>
 
 </html>

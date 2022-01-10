@@ -54,13 +54,12 @@
   </div>
 </div>
 <div class="container col-6 col-lg-2 col-md-3 col-sm-4 mb-3 mx-auto text-center">
-  <a href="javascript:;" class="btn omw-bg-color-darkblue omw-font-light-white create-kakao-link-btn">
+  <a href="javascript:;" class="btn omw-bg-color-darkblue omw-font-light-white create-kakao-link-btn-2">
     <img src="/assets/img/favicon/favicon-circle-512x512.png" alt="가는중!" width="48" height="48"><br>
     친구초대하기
   </a>
 </div>
 
-<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 
 <script type="text/javascript">
   let ud = document.getElementsByClassName("urgentDelete");
@@ -71,18 +70,6 @@
       }
     });
   }
-
-  Kakao.init('a02dd66190091e181757e9d40c9cc13e');
-  Kakao.Link.createDefaultButton({
-    container: '.create-kakao-link-btn',
-    objectType: 'text',
-    text:
-      '안전한 생활습관, 가는중!에 초대합니다',
-    link: {
-      mobileWebUrl: "http://onmyway.co.kr",
-      webUrl: "http://onmyway.co.kr",
-    },
-  })
 </script>
 
 <%- include("partials/footer") -%>
