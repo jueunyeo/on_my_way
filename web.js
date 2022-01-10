@@ -126,9 +126,9 @@ const homeUrl = "http://onmyway.co.kr";
 const redirectUrl = "http://onmyway.co.kr/oauth";
 const restApiKey = "a62cbbe436fc36a4056dbeac2897b11d";
 const sslOptions = {
-  key: fs.readFileSync("/ssl/onmyway.co.kr_20220110DC394.key.pem"),
-  cert: fs.readFileSync("/ssl/onmyway.co.kr_20220110DC394.crt.pem"),
-  ca: fs.readFileSync("/ssl/onmyway.co.kr_20220110DC394.ca-bundle.pem")
+  key: fs.readFileSync("/home/hosting_users/jueunyeo/apps/jueunyeo_onmyway/ssl/onmyway.co.kr_20220110DC394.key.pem"),
+  cert: fs.readFileSync("/home/hosting_users/jueunyeo/apps/jueunyeo_onmyway/ssl/onmyway.co.kr_20220110DC394.crt.pem"),
+  ca: fs.readFileSync("/home/hosting_users/jueunyeo/apps/jueunyeo_onmyway/ssl/onmyway.co.kr_20220110DC394.ca-bundle.pem")
 }
 
 ////////////////////////////////////////////////////////////////////////////////
