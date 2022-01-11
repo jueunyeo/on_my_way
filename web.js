@@ -133,6 +133,8 @@ const sslOptions = {
   ca: fs.readFileSync("/home/hosting_users/jueunyeo/apps/jueunyeo_onmyway/ssl/onmyway.co.kr_20220110DC394.ca-bundle.pem")
 }
 
+const server = https.createServer(sslOptions, app);
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -1809,7 +1811,11 @@ https.createServer(sslOptions, function(req, res){
   res.end("hello world\n");
 }).listen(80);
 */
-
+/*
 app.listen(8001, function() {
   console.log("Server is running on port 8001");
+});
+*/
+server.listen(8001, function(){
+  console.log("server is running on port 8001");
 });
