@@ -127,8 +127,11 @@ const homeUrl = "http://onmyway.co.kr";
 const redirectUrl = "http://onmyway.co.kr/oauth";
 const restApiKey = "a62cbbe436fc36a4056dbeac2897b11d";
 
-
-
+const sslOptions = {
+  key: fs.readFileSync("/home/hosting_users/jueunyeo/apps/jueunyeo_onmyway/ssl/onmyway.co.kr_20220110DC394.key.pem"),
+  cert: fs.readFileSync("/home/hosting_users/jueunyeo/apps/jueunyeo_onmyway/ssl/onmyway.co.kr_20220110DC394.crt.pem"),
+  ca: fs.readFileSync("/home/hosting_users/jueunyeo/apps/jueunyeo_onmyway/ssl/onmyway.co.kr_20220110DC394.ca-bundle.pem")
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -1799,23 +1802,6 @@ app.get("/", function(req, res) {
   }
 });
 
-/*
-https.createServer(sslOptions, function(req, res){
-  res.writeHead(200);
-  res.end("hello world\n");
-}).listen(80);
-*/
-/*
 app.listen(8001, function() {
   console.log("Server is running on port 8001");
 });
-*/
-
-const options = {
-  key: fs.readFileSync("/home/hosting_users/jueunyeo/apps/jueunyeo_onmyway/ssl/onmyway.co.kr_20220110DC394.key.pem"),
-  cert: fs.readFileSync("/home/hosting_users/jueunyeo/apps/jueunyeo_onmyway/ssl/onmyway.co.kr_20220110DC394.crt.pem"),
-  ca: fs.readFileSync("/home/hosting_users/jueunyeo/apps/jueunyeo_onmyway/ssl/onmyway.co.kr_20220110DC394.ca-bundle.pem")
-}
-
-http.createServer(app).listen(8001);
-https.createServer(options, app).listen(403);
