@@ -6,6 +6,7 @@ const ejs = require("ejs");
 const request = require("request");
 const mongoose = require("mongoose");
 const https = require("https");
+const http = require("http");
 const fs = require("fs");
 const emoji = require("node-emoji");
 
@@ -133,7 +134,6 @@ const sslOptions = {
   ca: fs.readFileSync("/home/hosting_users/jueunyeo/apps/jueunyeo_onmyway/ssl/onmyway.co.kr_20220110DC394.ca-bundle.pem")
 }
 
-const server = https.createServer(sslOptions, app);
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1816,6 +1816,5 @@ app.listen(8001, function() {
   console.log("Server is running on port 8001");
 });
 */
-server.listen(8001, function(){
-  console.log("server is running on port 8001");
-});
+http.createServer(app).listen(8001);
+https.createServer(sslOptions, app).listen(403);
