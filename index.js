@@ -6,7 +6,6 @@ const ejs = require("ejs");
 const request = require("request");
 const mongoose = require("mongoose");
 const https = require("https");
-const http = require("http");
 const fs = require("fs");
 const emoji = require("node-emoji");
 
@@ -22,7 +21,16 @@ const createDisplay = require(__dirname + "/js/createDisplay.js");
 
 const app = express();
 
-app.use(express.static("/home/hosting_users/jueunyeo/apps/jueunyeo_onmyway/public"));
+app.enable("trust proxy");
+app.use(function(req, res, next){
+  if(!req.secure){
+    res.redirect("https://" + req.headers.host + req.url);
+  } else{
+    next();
+  }
+});
+
+app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({
   extended: true
@@ -30,9 +38,10 @@ app.use(bodyParser.urlencoded({
 app.use(express.json());
 app.set('views', __dirname + '/views');
 
+
 //authenticating
 app.use(session({
-  secret: "omwsecretphisonphison",
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false
 }));
@@ -42,7 +51,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-mongoose.connect("mongodb+srv://admin-yeo:omw-2022@cluster0.ym4e6.mongodb.net/omwDB", {
+mongoose.connect("mongodb+srv://admin-yeo:" + process.env.DB_SECRET + "@cluster0.ym4e6.mongodb.net/omwDB", {
   useNewUrlParser: true
 });
 
@@ -123,15 +132,9 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
-const homeUrl = "http://onmyway.co.kr";
-const redirectUrl = "http://onmyway.co.kr/oauth";
-const restApiKey = "a62cbbe436fc36a4056dbeac2897b11d";
-
-const sslOptions = {
-  key: fs.readFileSync("/home/hosting_users/jueunyeo/apps/jueunyeo_onmyway/ssl/onmyway.co.kr_20220110DC394.key.pem"),
-  cert: fs.readFileSync("/home/hosting_users/jueunyeo/apps/jueunyeo_onmyway/ssl/onmyway.co.kr_20220110DC394.crt.pem"),
-  ca: fs.readFileSync("/home/hosting_users/jueunyeo/apps/jueunyeo_onmyway/ssl/onmyway.co.kr_20220110DC394.ca-bundle.pem")
-}
+const homeUrl = "https://onmyway.co.kr";
+const redirectUrl = "https://onmyway.co.kr/oauth";
+const restApiKey = process.env.REST_API_KEY;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -210,10 +213,10 @@ function sendMessageZeroTime (accessToken, username, sessionId){
     "object_type": "text",
     "text": emoji.get("ballot_box_with_check") + " " + "도착시간이 경과되었습니다! 도착하셨다면, 도착완료를 눌러 세션을 종료시켜주세요",
     "link": {
-      "web_url": homeUrl + "/session-shared/" + username + "/" + sessionId,
-      "mobile_web_url": homeUrl + "/session-shared/" + username + "/" + sessionId
+      "web_url": homeUrl,
+      "mobile_web_url": homeUrl
     },
-    "button_title": "이동상황 보러가기"
+    "button_title": "세션종료/수정 하러가기"
   };
   const jsonData = JSON.stringify(data);
 
@@ -755,10 +758,14 @@ app.get("/oauth", function(req, res) {
   const authorizeCode = req.query.code;
   const tokenUrl = "https://kauth.kakao.com/oauth/token?Content-type=application/x-www-form-urlencoded&grant_type=authorization_code&client_id=" + restApiKey + "&code=" + authorizeCode;
 
+  let onDataFirst = "";
   https.get(tokenUrl, function(response) {
     if(response.statusCode === 200){
-      response.on("data", function(data) {
-        const tokenInfo = JSON.parse(data);
+      response.on("data", function(dataFirst){
+        onDataFirst += dataFirst;
+      });
+      response.on("end", function(){
+        const tokenInfo = JSON.parse(onDataFirst);
         const accessToken = tokenInfo.access_token;
         const refreshToken = tokenInfo.refresh_token;
 
@@ -768,10 +775,15 @@ app.get("/oauth", function(req, res) {
           }
         }
         const getUserUrl = "https://kapi.kakao.com/v2/user/me";
+
+        let onDataSecond = "";
         https.get(getUserUrl, options, function(response) {
           if(response.statusCode === 200){
-            response.on("data", function(data) {
-              const userInfo = JSON.parse(data);
+            response.on("data", function(dataSecond){
+              onDataSecond += dataSecond;
+            });
+            response.on("end", function(){
+              const userInfo = JSON.parse(onDataSecond);
               const userKakaoId = String(userInfo.id);
               const userNickname = userInfo.kakao_account.profile.nickname;
               const userProfileImage = userInfo.kakao_account.profile.thumbnail_image_url;
@@ -945,10 +957,15 @@ app.post("/unlink/:username", function(req, res){
           }
         }
         const unlinkUrl = "https://kapi.kakao.com/v1/user/unlink";
+
+        let onData = "";
         https.get(unlinkUrl, options, function(response){
-          response.on("data", function(data){
-            if(response.statusCode === 200){
-              const unlinkData = JSON.parse(data);
+          if(response.statusCode === 200){
+            response.on("data", function(data){
+              onData += data;
+            });
+            response.on("end", function(){
+              const unlinkData = JSON.parse(onData);
               User.findOneAndRemove({username: getUsername}, function(err){
                 if(!err){
                   console.log("deleteUser Success " + getUsername);
@@ -960,11 +977,11 @@ app.post("/unlink/:username", function(req, res){
                 }
               });
               res.redirect("/");
-            } else{
-              console.log(response.statusCode);
-              res.redirect("/");
-            }
-          });
+            });
+          } else{
+            console.log(response.statusCode);
+            res.redirect("/");
+          }
         });
       }
     }
@@ -1379,26 +1396,39 @@ app.get("/friend-list-urgent/:username", function(req, res){
             Authorization: "Bearer " + accessToken
           }
         }
+
         const getFriendUrl = "https://kapi.kakao.com/v1/api/talk/friends?limit=100";
+        let onData = "";
         https.get(getFriendUrl, options, function(response){
           if(response.statusCode === 200){
             response.on("data", function(data){
-              const friendData = JSON.parse(data);
+              onData += data;
+            });
+            response.on("end", function(){
+              const friendData = JSON.parse(onData);
               const friends = friendData.elements;
 
-              let friendlistViews = [];
+              let friendListViews = [];
               friends.forEach(function(f){
+                let friendProfile = "";
+                if (f.profile_thumbnail_image.length === 0){
+                  friendProfile = "/assets/img/default-profile.png";
+                } else{
+                  friendProfile = f.profile_thumbnail_image;
+                }
                 let friendView = {
                   username: f.id,
                   nickname: f.profile_nickname,
-                  profile: f.profile_thumbnail_image
+                  profile: friendProfile
                 };
-                friendlistViews.push(friendView);
+                friendListViews.push(friendView);
               });
+
               res.render("friend-list-urgent", {
                 bodyUsername: getUsername,
-                friendItems: friendlistViews
+                friendItems: friendListViews
               });
+
             });
           } else{
             console.log(response.statusCode);
@@ -1438,10 +1468,15 @@ app.post("/urgent-list-create/:username", function(req, res){
             }
           }
           const getFriendUrl = "https://kapi.kakao.com/v1/api/talk/friends?limit=100";
+
+          let onData = "";
           https.get(getFriendUrl, options, function(response){
             if(response.statusCode === 200){
               response.on("data", function(data){
-                const friendData = JSON.parse(data);
+                onData += data;
+              });
+              response.on("end", function(){
+                const friendData = JSON.parse(onData);
                 const friends = friendData.elements;
                 const friend = friends.filter(function(f){
                   return f.id === Number(friendname);
@@ -1449,10 +1484,16 @@ app.post("/urgent-list-create/:username", function(req, res){
                 //send message to new urgent friend
                 sendMessageUrgentCreate (accessToken, userNickname, String(friend[0].uuid));
 
+                let friendProfile = "";
+                if(friend[0].profile_thumbnail_image.length === 0){
+                  friendProfile = "/assets/img/default-profile.png";
+                } else{
+                  friendProfile = friend[0].profile_thumbnail_image;
+                }
                 const newFriend = {
                   urgentUsername: String(friend[0].id),
                   urgentNickname: String(friend[0].profile_nickname),
-                  urgentProfile: String(friend[0].profile_thumbnail_image),
+                  urgentProfile: String(friendProfile),
                   urgentUuid: String(friend[0].uuid)
                 };
                 oldFriendList.push(newFriend);
@@ -1567,26 +1608,36 @@ app.get("/friend-list-share/:username/:sessionId", function(req, res){
           }
         }
         const getFriendUrl = "https://kapi.kakao.com/v1/api/talk/friends?limit=100";
+        let onData = "";
         https.get(getFriendUrl, options, function(response){
           if(response.statusCode === 200){
             response.on("data", function(data){
-              const friendData = JSON.parse(data);
+              onData += data;
+            });
+            response.on("end", function(){
+              const friendData = JSON.parse(onData);
               const friends = friendData.elements;
 
-              let friendlistViews = [];
+              let friendListViews = [];
               friends.forEach(function(f){
+                let friendProfile = "";
+                if (f.profile_thumbnail_image.length === 0){
+                  friendProfile = "/assets/img/default-profile.png";
+                } else{
+                  friendProfile = f.profile_thumbnail_image;
+                }
                 let friendView = {
                   username: f.id,
                   nickname: f.profile_nickname,
-                  profile: f.profile_thumbnail_image
+                  profile: friendProfile
                 };
-                friendlistViews.push(friendView);
+                friendListViews.push(friendView);
               });
 
               res.render("friend-list-share", {
                 bodyUsername: getUsername,
                 bodySessionId: sessionId,
-                friendItems: friendlistViews
+                friendItems: friendListViews
               });
             });
           } else{
@@ -1635,20 +1686,31 @@ app.post("/share-list-update/:username/:sessionId", function(req, res){
             }
           }
           const getFriendUrl = "https://kapi.kakao.com/v1/api/talk/friends?limit=100";
+          let onData = "";
           https.get(getFriendUrl, options, function(response){
             if(response.statusCode === 200){
               response.on("data", function(data){
-                const friendData = JSON.parse(data);
+                onData += data;
+              });
+              response.on("end", function(){
+                const friendData = JSON.parse(onData);
                 const friends = friendData.elements;
                 const friend = friends.filter(function(f){
                   return f.id === Number(friendnames);
                 });
 
                 let newShareList = [];
+
+                let friendProfile = "";
+                if(friend[0].profile_thumbnail_image.length === 0){
+                  friendProfile = "/assets/img/default-profile.png";
+                } else{
+                  friendProfile = friend[0].profile_thumbnail_image;
+                }
                 const newFriend = {
                   shareUsername: String(friend[0].id),
                   shareNickname: String(friend[0].profile_nickname),
-                  shareProfile: String(friend[0].profile_thumbnail_image),
+                  shareProfile: String(friendProfile),
                   shareUuid: String(friend[0].uuid)
                 };
                 newShareList.push(newFriend);
@@ -1693,10 +1755,15 @@ app.post("/share-list-update/:username/:sessionId", function(req, res){
             }
           }
           const getFriendUrl = "https://kapi.kakao.com/v1/api/talk/friends?limit=100";
+
+          let onData = "";
           https.get(getFriendUrl, options, function(response){
             if(response.statusCode === 200){
               response.on("data", function(data){
-                const friendData = JSON.parse(data);
+                onData += data;
+              });
+              response.on("end", function(){
+                const friendData = JSON.parse(onData);
 
                 let newShareList = [];
                 for(let i = 0; i < friendnames.length; i++){
@@ -1704,10 +1771,17 @@ app.post("/share-list-update/:username/:sessionId", function(req, res){
                   let friend = friends.filter(function(f){
                     return f.id === Number(friendnames[i]);
                   });
+
+                  let friendProfile = "";
+                  if(friend[0].profile_thumbnail_image.length === 0){
+                    friendProfile = "/assets/img/default-profile.png";
+                  } else{
+                    friendProfile = friend[0].profile_thumbnail_image;
+                  }
                   let newFriend = {
                     shareUsername: String(friend[0].id),
                     shareNickname: String(friend[0].profile_nickname),
-                    shareProfile: String(friend[0].profile_thumbnail_image),
+                    shareProfile: String(friendProfile),
                     shareUuid: String(friend[0].uuid)
                   };
                   newShareList.push(newFriend);
@@ -1759,10 +1833,14 @@ app.get("/", function(req, res) {
           }
         }
         const getPermissionListUrl = "https://kapi.kakao.com/v2/user/scopes";
+        let onData = "";
         https.get(getPermissionListUrl, options, function(response){
           if(response.statusCode === 200){
             response.on("data", function(data){
-              const permissionListData = JSON.parse(data);
+              onData += data;
+            });
+            response.on("end", function(){
+              const permissionListData = JSON.parse(onData);
               const permissionList = permissionListData.scopes;
 
               let permissionNeeded = false;
@@ -1784,6 +1862,7 @@ app.get("/", function(req, res) {
                 res.redirect("/session-list/" + req.user.username);
               }
             });
+
           } else{
             console.log(response.statusCode);
             const oauthUrl = "https://kauth.kakao.com/oauth/authorize?client_id=" + restApiKey + "&redirect_uri="+ redirectUrl + "&response_type=code";
@@ -1802,6 +1881,6 @@ app.get("/", function(req, res) {
   }
 });
 
-app.listen(8001, function() {
-  console.log("Server is running on port 8001");
+app.listen(process.env.PORT, function() {
+  console.log("Server is running on port " + process.env.PORT);
 });
